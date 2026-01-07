@@ -10,7 +10,7 @@ const Navigation = () => {
           <Link href="/forms/new">
             <Button
               variant="outline"
-              className="w-28 cursor-pointer rounded-sm border-2 bg-transparent text-white"
+              className="w-28 rounded-sm border-2 bg-transparent text-white"
             >
               <HiOutlinePlus />
               New Form
@@ -18,10 +18,7 @@ const Navigation = () => {
           </Link>
         </li>
         <li>
-          <Button
-            variant="secondary"
-            className="w-28 cursor-pointer rounded-sm"
-          >
+          <Button variant="secondary" className="w-28 rounded-sm">
             Logout
           </Button>
         </li>

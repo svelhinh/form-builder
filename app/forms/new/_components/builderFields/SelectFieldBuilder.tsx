@@ -5,10 +5,10 @@ import { HiOutlinePlus, HiXMark } from "react-icons/hi2";
 import FieldHeaderBuilder from "./FieldHeaderBuilder";
 import FieldTitleBuilder from "./FieldTitleBuilder";
 
-const SelectFieldBuilder = () => {
+const SelectFieldBuilder = ({ fieldId }: { fieldId: string }) => {
   return (
     <>
-      <FieldHeaderBuilder title="Select Field" />
+      <FieldHeaderBuilder fieldId={fieldId} title="Select Field" />
       <FieldGroup>
         <FieldTitleBuilder />
         <Field orientation="horizontal">

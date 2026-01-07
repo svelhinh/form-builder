@@ -1,10 +1,10 @@
 import FieldHeaderBuilder from "./FieldHeaderBuilder";
 import FieldTitleBuilder from "./FieldTitleBuilder";
 
-const TextFieldBuilder = () => {
+const TextFieldBuilder = ({ fieldId }: { fieldId: string }) => {
   return (
     <>
-      <FieldHeaderBuilder title="Text Field" />
+      <FieldHeaderBuilder fieldId={fieldId} title="Text Field" />
       <FieldTitleBuilder />
     </>
   );

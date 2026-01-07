@@ -3,10 +3,10 @@ import { Input } from "@/app/_components/ui/input";
 import FieldHeaderBuilder from "./FieldHeaderBuilder";
 import FieldTitleBuilder from "./FieldTitleBuilder";
 
-const NumberFieldBuilder = () => {
+const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
   return (
     <>
-      <FieldHeaderBuilder title="Number Field" />
+      <FieldHeaderBuilder fieldId={fieldId} title="Number Field" />
       <FieldGroup>
         <FieldTitleBuilder />
         <Field orientation="horizontal">
