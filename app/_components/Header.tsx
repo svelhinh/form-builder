@@ -3,9 +3,11 @@ import Navigation from "./Navigation";
 
 const Header = () => {
   return (
-    <header className="h-20 bg-linear-to-br from-indigo-600 to-indigo-500 flex items-center justify-between px-12">
-      <Logo />
-      <Navigation />
+    <header className="bg-linear-to-br from-indigo-600 to-indigo-500 px-8 py-5">
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
+        <Logo />
+        <Navigation />
+      </div>
     </header>
   );
 };

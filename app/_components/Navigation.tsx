@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 
 const Navigation = () => {
   return (
-    <nav>
+    <nav className="z-10">
       <ul className="flex flex-row gap-6">
         <li>
           <Link href="/forms/new">
