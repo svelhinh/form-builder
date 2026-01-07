@@ -1,18 +1,14 @@
 import { Field, FieldGroup, FieldLabel } from "@/app/_components/ui/field";
 import { Input } from "@/app/_components/ui/input";
-import FieldHeader from "./FieldHeader";
+import FieldHeaderBuilder from "./FieldHeaderBuilder";
+import FieldTitleBuilder from "./FieldTitleBuilder";
 
-const NumberField = () => {
+const NumberFieldBuilder = () => {
   return (
     <>
-      <FieldHeader title="Number Field" />
+      <FieldHeaderBuilder title="Number Field" />
       <FieldGroup>
-        <Field orientation="horizontal">
-          <Input
-            placeholder="Enter field name"
-            className="border-none text-lg font-semibold shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg"
-          />
-        </Field>
+        <FieldTitleBuilder />
         <Field orientation="horizontal">
           <FieldLabel htmlFor="min">Minimum</FieldLabel>
           <Input
@@ -34,4 +30,4 @@ const NumberField = () => {
   );
 };
 
-export default NumberField;
+export default NumberFieldBuilder;

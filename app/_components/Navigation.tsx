@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { HiOutlinePlus } from "react-icons/hi2";
 
 const Navigation = () => {
   return (
@@ -9,16 +10,17 @@ const Navigation = () => {
           <Link href="/forms/new">
             <Button
               variant="outline"
-              className="bg-transparent border-2 rounded-sm w-28 text-white cursor-pointer"
+              className="w-28 cursor-pointer rounded-sm border-2 bg-transparent text-white"
             >
-              + New Form
+              <HiOutlinePlus />
+              New Form
             </Button>
           </Link>
         </li>
         <li>
           <Button
             variant="secondary"
-            className="rounded-sm w-28 cursor-pointer"
+            className="w-28 cursor-pointer rounded-sm"
           >
             Logout
           </Button>

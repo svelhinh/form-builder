@@ -4,7 +4,7 @@ import FormPreview from "../_components/FormPreview";
 
 const Page = () => {
   return (
-    <div className="mx-20 mt-15 flex flex-row gap-10">
+    <div className="mx-20 my-15 flex flex-row gap-10">
       <FormBuilder />
       <Separator orientation="vertical" />
       <FormPreview />
