@@ -18,7 +18,7 @@ export type FormField =
       type: "select";
       title: string;
       isRequired: boolean;
-      options: string[];
+      options: { id: string; label: string }[];
     };
 
 export type FormFields = FormField[];

@@ -1,19 +1,35 @@
 import { Field, FieldLabel } from "@/app/_components/ui/field";
 import { Input } from "@/app/_components/ui/input";
 import { Switch } from "@/app/_components/ui/switch";
+import { useFormDraftStore } from "@/app/forms/_store/form-draft-store-provider";
 
-const FieldTitleBuilder = () => {
+const FieldTitleBuilder = ({ fieldId }: { fieldId: string }) => {
+  const { patchField } = useFormDraftStore((state) => state);
+
   return (
     <Field orientation="horizontal">
       <Input
         placeholder="Enter field name"
-        className="border-none text-lg font-semibold shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 md:text-lg"
+        className="text-lg font-semibold md:text-lg"
+        onChange={(e) =>
+          patchField(fieldId, {
+            title: e.target.value,
+          })
+        }
       />
       <span className="flex items-center gap-2">
         <FieldLabel htmlFor="required" className="text-destructive">
           Required
         </FieldLabel>
-        <Switch id="required" className="data-[state=checked]:bg-destructive" />
+        <Switch
+          id="required"
+          className="data-[state=checked]:bg-destructive"
+          onCheckedChange={(checked) =>
+            patchField(fieldId, {
+              isRequired: checked,
+            })
+          }
+        />
       </span>
     </Field>
   );

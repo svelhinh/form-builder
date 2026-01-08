@@ -18,7 +18,7 @@ const FieldHeaderBuilder = ({
   };
 
   return (
-    <FieldLegend className="flex items-center justify-between gap-4 font-normal">
+    <FieldLegend className="flex items-center justify-between gap-4 font-semibold">
       <div className="flex flex-col gap-2">
         <span>{title}</span>
       </div>

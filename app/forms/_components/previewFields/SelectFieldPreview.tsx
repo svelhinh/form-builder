@@ -1,4 +1,4 @@
-import { Field, FieldLabel } from "@/app/_components/ui/field";
+import { Field } from "@/app/_components/ui/field";
 import {
   Select,
   SelectContent,
@@ -6,19 +6,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
+import { FormField } from "../../_lib/fields.types";
+import FieldTitlePreview from "./FieldTitlePreview";
 
-const SelectFieldPreview = () => {
+const SelectFieldPreview = ({ field }: { field: FormField }) => {
+  if (field.type !== "select") {
+    return null;
+  }
+
   return (
     <Field>
-      <FieldLabel className="text-lg font-semibold">Select</FieldLabel>
+      <FieldTitlePreview title={field.title} isRequired={field.isRequired} />
       <Select>
         <SelectTrigger>
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="1">Option 1</SelectItem>
-          <SelectItem value="2">Option 2</SelectItem>
-          <SelectItem value="3">Option 3</SelectItem>
+          {field.options.map((option) => (
+            <SelectItem key={option.id} value={option.id.toString()}>
+              {option.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </Field>

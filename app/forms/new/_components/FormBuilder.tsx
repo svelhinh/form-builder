@@ -59,7 +59,10 @@ const FormBuilder = () => {
                           <NumberFieldBuilder fieldId={field.id} />
                         )}
                         {field.type === "select" && (
-                          <SelectFieldBuilder fieldId={field.id} />
+                          <SelectFieldBuilder
+                            fieldId={field.id}
+                            options={field.options}
+                          />
                         )}
                       </div>
                       <Separator />

@@ -14,13 +14,17 @@ const FormPreview = () => {
     <form className="w-full">
       <FieldSet>
         <h1 className="text-3xl">Form Preview</h1>
-        {title && <h1 className="text-3xl">{title}</h1>}
+        {title ? (
+          <h1 className="text-3xl">{title}</h1>
+        ) : (
+          <h1 className="text-3xl">Untitled Form</h1>
+        )}
         <FieldGroup>
           {fields.map((field) => (
             <Fragment key={field.id}>
-              {field.type === "text" && <TextFieldPreview />}
-              {field.type === "number" && <NumberFieldPreview />}
-              {field.type === "select" && <SelectFieldPreview />}
+              {field.type === "text" && <TextFieldPreview field={field} />}
+              {field.type === "number" && <NumberFieldPreview field={field} />}
+              {field.type === "select" && <SelectFieldPreview field={field} />}
             </Fragment>
           ))}
         </FieldGroup>

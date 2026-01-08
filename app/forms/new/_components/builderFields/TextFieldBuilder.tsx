@@ -5,7 +5,7 @@ const TextFieldBuilder = ({ fieldId }: { fieldId: string }) => {
   return (
     <>
       <FieldHeaderBuilder fieldId={fieldId} title="Text Field" />
-      <FieldTitleBuilder />
+      <FieldTitleBuilder fieldId={fieldId} />
     </>
   );
 };
