@@ -1,16 +1,8 @@
-/////////////
-// GET
+import { createClient } from "./supabase/server";
 
-import { supabase } from "./supabase/supabase";
-
-export const getForms = async () => {
+export const fetchForms = async () => {
+  const supabase = await createClient();
   const { data, error } = await supabase.from("forms").select("*");
   if (error) throw error;
   return data;
 };
-
-/////////////
-// CREATE
-
-/////////////
-// DELETE
