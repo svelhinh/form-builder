@@ -14,7 +14,6 @@ import {
   InputGroupInput,
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
-import { signInAction } from "@/app/_lib/actions";
 import { signIn } from "@/app/_lib/auth-client";
 import { LockIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
@@ -38,12 +37,27 @@ const SignInForm = () => {
       email: email,
       password: password,
       rememberMe: rememberMe,
+      callbackURL: "/forms",
       fetchOptions: {
         onError: (ctx) => {
           toast.error(ctx.error.message);
         },
-        onSuccess: () => {
-          router.push("/forms");
+      },
+    });
+    setLoading(false);
+  };
+
+  const handleGoogleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    await signIn.social({
+      provider: "google",
+      callbackURL: "/forms",
+      errorCallbackURL: "/auth/login",
+      fetchOptions: {
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
         },
       },
     });
@@ -119,10 +133,7 @@ const SignInForm = () => {
               variant="outline"
               className="text-md"
               disabled={loading}
-              onClick={(e) => {
-                e.preventDefault();
-                signIn.social({ provider: "google" });
-              }}
+              onClick={handleGoogleSignIn}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

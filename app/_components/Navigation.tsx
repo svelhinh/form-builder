@@ -1,51 +1,65 @@
 "use client";
 
+import { signOut, useSession } from "@/app/_lib/auth-client";
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { HiOutlinePlus } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { HiOutlinePlus } from "react-icons/hi2";
 import { toast } from "sonner";
-import { signOut } from "@/app/_lib/auth-client";
+import { Button } from "./ui/button";
+import { Spinner } from "./ui/spinner";
 
 const Navigation = () => {
+  const { data: session } = useSession();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
+
   return (
-    <nav className="z-10">
-      <ul className="flex flex-row gap-6">
-        <li>
-          <Link href="/forms/new">
+    <div className="flex items-center gap-8">
+      {session && (
+        <p className="text-lg text-white">Welcome, {session?.user.name}</p>
+      )}
+      <nav className="z-10">
+        <ul className="flex flex-row gap-6">
+          {session && (
+            <li>
+              <Link href="/forms/new">
+                <Button
+                  variant="outline"
+                  className="w-28 rounded-sm border-2 bg-transparent text-white"
+                >
+                  <HiOutlinePlus />
+                  New Form
+                </Button>
+              </Link>
+            </li>
+          )}
+          <li>
             <Button
-              variant="outline"
-              className="w-28 rounded-sm border-2 bg-transparent text-white"
+              variant="secondary"
+              className="w-28 rounded-sm"
+              onClick={async () => {
+                setLoading(true);
+                await signOut({
+                  fetchOptions: {
+                    onSuccess: () => {
+                      router.push("/auth/login");
+                    },
+                    onError: (ctx) => {
+                      toast.error(ctx.error.message);
+                    },
+                  },
+                });
+                setLoading(false);
+              }}
             >
-              <HiOutlinePlus />
-              New Form
+              {loading ? <Spinner /> : "Logout"}
             </Button>
-          </Link>
-        </li>
-        <li>
-          <Button
-            variant="secondary"
-            className="w-28 rounded-sm"
-            onClick={async () => {
-              await signOut({
-                fetchOptions: {
-                  onSuccess: () => {
-                    router.push("/auth/login");
-                  },
-                  onError: (ctx) => {
-                    toast.error(ctx.error.message);
-                  },
-                },
-              });
-            }}
-          >
-            Logout
-          </Button>
-        </li>
-      </ul>
-    </nav>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 };
 
