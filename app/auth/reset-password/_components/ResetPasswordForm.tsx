@@ -13,23 +13,48 @@ import {
   InputGroupInput,
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
-import { resetPasswordAction } from "@/app/_lib/actions";
+import { resetPassword } from "@/app/_lib/auth-client";
 import { LockIcon } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const ResetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      if (!token) throw new Error("Invalid token");
+      await resetPassword({
+        newPassword: newPassword,
+        token: token,
+        fetchOptions: {
+          onError: (ctx) => {
+            toast.error(ctx.error.message);
+          },
+          onSuccess: () => {
+            router.push("/auth/reset-password/success");
+          },
+        },
+      });
+    } catch (error) {
+      toast.error((error as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <form
-      action={async (formData: FormData) => {
-        setLoading(true);
-        await resetPasswordAction(formData);
-        setLoading(false);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
           <Field>

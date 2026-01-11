@@ -19,7 +19,7 @@ const AuthShell = ({
   footer,
 }: {
   title?: string;
-  description?: string;
+  description?: string | React.ReactNode;
   children: React.ReactNode;
   footer?: React.ReactNode;
 }) => {
@@ -41,8 +41,12 @@ const AuthShell = ({
         )}
       </CardHeader>
       <CardContent className="w-md">{children}</CardContent>
-      <Separator />
-      {footer && <CardFooter className="flex-col gap-2">{footer}</CardFooter>}
+      {footer && (
+        <>
+          <Separator />
+          <CardFooter className="flex-col gap-2">{footer}</CardFooter>
+        </>
+      )}
     </Card>
   );
 };

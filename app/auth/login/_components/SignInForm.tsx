@@ -18,22 +18,40 @@ import { signInAction } from "@/app/_lib/actions";
 import { signIn } from "@/app/_lib/auth-client";
 import { LockIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const SignInForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("sergio93160@gmail.com");
+  const [password, setPassword] = useState("pass1234");
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+    await signIn.email({
+      email: email,
+      password: password,
+      rememberMe: rememberMe,
+      fetchOptions: {
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+        onSuccess: () => {
+          router.push("/forms");
+        },
+      },
+    });
+    setLoading(false);
+  };
 
   return (
-    <form
-      action={async (formData: FormData) => {
-        setLoading(true);
-        await signInAction(formData);
-        setLoading(false);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
           <Field>

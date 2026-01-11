@@ -13,22 +13,35 @@ import {
   InputGroupInput,
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
-import { forgotPasswordAction } from "@/app/_lib/actions";
+import { requestPasswordReset } from "@/app/_lib/auth-client";
 import { MailIcon } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const ForgotPasswordForm = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("sergio93160@gmail.com");
   const [loading, setLoading] = useState(false);
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    await requestPasswordReset({
+      email: email,
+      redirectTo: "/auth/reset-password",
+      fetchOptions: {
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+        onSuccess: () => {
+          toast.success("Password reset email sent");
+        },
+      },
+    });
+    setLoading(false);
+  };
+
   return (
-    <form
-      action={async (formData: FormData) => {
-        setLoading(true);
-        await forgotPasswordAction(formData);
-        setLoading(false);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
           <Field>

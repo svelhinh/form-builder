@@ -13,25 +13,45 @@ import {
   InputGroupInput,
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
-import { signUpAction } from "@/app/_lib/actions";
+import { signUp } from "@/app/_lib/auth-client";
 import { LockIcon, MailIcon, UserIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const SignInForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("Toto");
+  const [email, setEmail] = useState("sergio93160@gmail.com");
+  const [password, setPassword] = useState("pass1234");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("pass1234");
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    await signUp.email({
+      name: name,
+      email: email,
+      password: password,
+      fetchOptions: {
+        onError: (ctx) => {
+          toast.error(ctx.error.message);
+        },
+        onSuccess: () => {
+          router.push("/auth/signup/confirm");
+        },
+      },
+    });
+
+    setLoading(false);
+  };
+
   return (
-    <form
-      action={async (formData: FormData) => {
-        setLoading(true);
-        await signUpAction(formData);
-        setLoading(false);
-      }}
-    >
+    <form onSubmit={handleSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
           <Field>
@@ -81,6 +101,7 @@ const SignInForm = () => {
                   placeholder="********"
                   required
                   value={password}
+                  autoComplete="new-password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <InputGroupAddon>
@@ -89,18 +110,19 @@ const SignInForm = () => {
               </InputGroup>
             </Field>
             <Field>
-              <FieldLabel htmlFor="confirmPassword">
+              <FieldLabel htmlFor="passwordConfirmation">
                 Confirm Password
               </FieldLabel>
               <InputGroup>
                 <InputGroupInput
-                  id="confirmPassword"
-                  name="confirmPassword"
+                  id="passwordConfirmation"
+                  name="passwordConfirmation"
                   type="password"
                   placeholder="********"
                   required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={passwordConfirmation}
+                  autoComplete="new-password"
+                  onChange={(e) => setPasswordConfirmation(e.target.value)}
                 />
                 <InputGroupAddon>
                   <LockIcon />
