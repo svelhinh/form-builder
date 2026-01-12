@@ -39,45 +39,225 @@ export type Database = {
   }
   public: {
     Tables: {
+      account: {
+        Row: {
+          accessToken: string | null
+          accessTokenExpiresAt: string | null
+          accountId: string
+          createdAt: string
+          id: string
+          idToken: string | null
+          password: string | null
+          providerId: string
+          refreshToken: string | null
+          refreshTokenExpiresAt: string | null
+          scope: string | null
+          updatedAt: string
+          userId: string
+        }
+        Insert: {
+          accessToken?: string | null
+          accessTokenExpiresAt?: string | null
+          accountId: string
+          createdAt?: string
+          id: string
+          idToken?: string | null
+          password?: string | null
+          providerId: string
+          refreshToken?: string | null
+          refreshTokenExpiresAt?: string | null
+          scope?: string | null
+          updatedAt: string
+          userId: string
+        }
+        Update: {
+          accessToken?: string | null
+          accessTokenExpiresAt?: string | null
+          accountId?: string
+          createdAt?: string
+          id?: string
+          idToken?: string | null
+          password?: string | null
+          providerId?: string
+          refreshToken?: string | null
+          refreshTokenExpiresAt?: string | null
+          scope?: string | null
+          updatedAt?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "account_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forms: {
         Row: {
           created_at: string
           fields: Json | null
           id: number
+          owner_id: string | null
           title: string | null
         }
         Insert: {
           created_at?: string
           fields?: Json | null
           id?: number
+          owner_id?: string | null
           title?: string | null
         }
         Update: {
           created_at?: string
           fields?: Json | null
           id?: number
+          owner_id?: string | null
           title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forms_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session: {
+        Row: {
+          createdAt: string
+          expiresAt: string
+          id: string
+          impersonatedBy: string | null
+          ipAddress: string | null
+          token: string
+          updatedAt: string
+          userAgent: string | null
+          userId: string
+        }
+        Insert: {
+          createdAt?: string
+          expiresAt: string
+          id: string
+          impersonatedBy?: string | null
+          ipAddress?: string | null
+          token: string
+          updatedAt: string
+          userAgent?: string | null
+          userId: string
+        }
+        Update: {
+          createdAt?: string
+          expiresAt?: string
+          id?: string
+          impersonatedBy?: string | null
+          ipAddress?: string | null
+          token?: string
+          updatedAt?: string
+          userAgent?: string | null
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user: {
+        Row: {
+          appMetadata: Json | null
+          banExpires: string | null
+          banned: boolean | null
+          banReason: string | null
+          createdAt: string
+          email: string
+          emailVerified: boolean
+          id: string
+          image: string | null
+          invitedAt: string | null
+          isAnonymous: boolean | null
+          lastSignInAt: string | null
+          name: string
+          phoneNumber: string | null
+          phoneNumberVerified: boolean | null
+          role: string | null
+          updatedAt: string
+          userMetadata: Json | null
+        }
+        Insert: {
+          appMetadata?: Json | null
+          banExpires?: string | null
+          banned?: boolean | null
+          banReason?: string | null
+          createdAt?: string
+          email: string
+          emailVerified: boolean
+          id: string
+          image?: string | null
+          invitedAt?: string | null
+          isAnonymous?: boolean | null
+          lastSignInAt?: string | null
+          name: string
+          phoneNumber?: string | null
+          phoneNumberVerified?: boolean | null
+          role?: string | null
+          updatedAt?: string
+          userMetadata?: Json | null
+        }
+        Update: {
+          appMetadata?: Json | null
+          banExpires?: string | null
+          banned?: boolean | null
+          banReason?: string | null
+          createdAt?: string
+          email?: string
+          emailVerified?: boolean
+          id?: string
+          image?: string | null
+          invitedAt?: string | null
+          isAnonymous?: boolean | null
+          lastSignInAt?: string | null
+          name?: string
+          phoneNumber?: string | null
+          phoneNumberVerified?: boolean | null
+          role?: string | null
+          updatedAt?: string
+          userMetadata?: Json | null
         }
         Relationships: []
       }
-      users: {
+      verification: {
         Row: {
-          created_at: string
-          email: string | null
-          fullName: string | null
-          id: number
+          createdAt: string
+          expiresAt: string
+          id: string
+          identifier: string
+          updatedAt: string
+          value: string
         }
         Insert: {
-          created_at?: string
-          email?: string | null
-          fullName?: string | null
-          id?: number
+          createdAt?: string
+          expiresAt: string
+          id: string
+          identifier: string
+          updatedAt?: string
+          value: string
         }
         Update: {
-          created_at?: string
-          email?: string | null
-          fullName?: string | null
-          id?: number
+          createdAt?: string
+          expiresAt?: string
+          id?: string
+          identifier?: string
+          updatedAt?: string
+          value?: string
         }
         Relationships: []
       }
