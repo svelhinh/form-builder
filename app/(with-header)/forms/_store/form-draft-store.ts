@@ -11,6 +11,7 @@ export type FormDraftActions = {
   addField: (type: "text" | "number" | "select") => void;
   removeField: (id: string) => void;
   patchField: (id: string, patch: Partial<FormField>) => void;
+  patchFields: (fields: FormFields) => void;
   resetFormDraft: () => void;
   addOptionOnSelectField: (id: string) => void;
   patchOptionOnSelectField: (
@@ -24,7 +25,7 @@ export type FormDraftActions = {
 export type FormDraftStore = FormDraftState & FormDraftActions;
 
 export const defaultInitState: FormDraftState = {
-  title: "Untitled Form",
+  title: "",
   fields: [],
 };
 
@@ -38,7 +39,7 @@ export const createFormDraftStore = (
       const newField = {
         id: crypto.randomUUID(),
         type,
-        title: "Untitled Field",
+        title: "",
         isRequired: false,
       };
 
@@ -55,7 +56,7 @@ export const createFormDraftStore = (
           patchedField = {
             ...newField,
             type: "select",
-            options: [{ id: crypto.randomUUID(), label: "Untitled Option" }],
+            options: [{ id: crypto.randomUUID(), label: "" }],
           };
           break;
         default:
@@ -66,6 +67,7 @@ export const createFormDraftStore = (
         fields: [...state.fields, patchedField],
       }));
     },
+    patchFields: (fields: FormFields) => set({ fields }),
     removeField: (id: string) =>
       set((state) => ({
         fields: state.fields.filter((field) => field.id !== id),
@@ -89,10 +91,7 @@ export const createFormDraftStore = (
 
           return {
             ...field,
-            options: [
-              ...field.options,
-              { id: crypto.randomUUID(), label: `Untitled Option` },
-            ],
+            options: [...field.options, { id: crypto.randomUUID(), label: "" }],
           };
         }),
       })),

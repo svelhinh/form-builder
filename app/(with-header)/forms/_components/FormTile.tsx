@@ -35,7 +35,9 @@ const FormTile = ({
         className="hover:bg-accent flex items-center justify-between p-6 hover:rounded-md"
       >
         <span className="flex flex-col gap-1">
-          <h1 className="text-2xl font-semibold">{form.title}</h1>
+          <h1 className="text-2xl font-semibold">
+            {form.title ? form.title : "Untitled Form"}
+          </h1>
           <div className="text-md">
             Created {formatDaysAgo(form.created_at)}
           </div>

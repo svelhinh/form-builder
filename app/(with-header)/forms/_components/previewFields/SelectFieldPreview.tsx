@@ -24,7 +24,7 @@ const SelectFieldPreview = ({ field }: { field: FormField }) => {
         <SelectContent>
           {field.options.map((option) => (
             <SelectItem key={option.id} value={option.id.toString()}>
-              {option.label}
+              {option.label ? option.label : "Untitled Option"}
             </SelectItem>
           ))}
         </SelectContent>

@@ -22,9 +22,9 @@ const FormPreview = ({ title, fields }: Props) => {
     <form onSubmit={handleSubmit}>
       <FieldSet>
         {title ? (
-          <h1 className="text-3xl">{title}</h1>
+          <h1 className="text-2xl">{title}</h1>
         ) : (
-          <h1 className="text-3xl">Untitled Form</h1>
+          <h1 className="text-2xl">Untitled Form</h1>
         )}
         <FieldGroup>
           {fields.map((field) => (
@@ -34,12 +34,14 @@ const FormPreview = ({ title, fields }: Props) => {
               {field.type === "select" && <SelectFieldPreview field={field} />}
             </Fragment>
           ))}
-          <Button
-            className="bg-indigo-600 font-semibold text-white hover:bg-indigo-700 md:text-xl"
-            size="lg"
-          >
-            Submit
-          </Button>
+          {fields.length > 0 && (
+            <Button
+              className="bg-indigo-600 font-semibold text-white hover:bg-indigo-700 md:text-xl"
+              size="lg"
+            >
+              Submit
+            </Button>
+          )}
         </FieldGroup>
       </FieldSet>
     </form>

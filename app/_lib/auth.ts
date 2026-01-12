@@ -1,5 +1,4 @@
 import { betterAuth } from "better-auth";
-import { redirect } from "next/navigation";
 import { Pool } from "pg";
 import { Resend } from "resend";
 
