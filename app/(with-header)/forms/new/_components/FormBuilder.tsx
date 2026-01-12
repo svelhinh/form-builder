@@ -12,6 +12,7 @@ import { useFormDraftStore } from "../../_store/form-draft-store-provider";
 import NumberFieldBuilder from "./builderFields/NumberFieldBuilder";
 import SelectFieldBuilder from "./builderFields/SelectFieldBuilder";
 import TextFieldBuilder from "./builderFields/TextFieldBuilder";
+import SaveButton from "./SaveButton";
 
 const FormBuilder = () => {
   const { setTitle, addField, fields, resetFormDraft } = useFormDraftStore(
@@ -98,13 +99,7 @@ const FormBuilder = () => {
               </Button>
             </Field>
             <Field>
-              <Button
-                className="bg-indigo-600 font-semibold text-white hover:bg-indigo-700 md:text-xl"
-                size="lg"
-                disabled={fields.length === 0}
-              >
-                Save Form
-              </Button>
+              <SaveButton disabled={fields.length === 0} />
             </Field>
           </FieldGroup>
         </FieldSet>

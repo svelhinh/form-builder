@@ -15,6 +15,7 @@ export const createForm = async (formData: FormData) => {
   const newForm = {
     title: formData.get("title") as string,
     fields: JSON.parse(formData.get("fields") as string) as FormFields,
+    owner_id: session.user.id,
   };
 
   const { error } = await supabase.from("forms").insert([newForm]);
@@ -23,12 +24,12 @@ export const createForm = async (formData: FormData) => {
   redirect("/forms");
 };
 
-export const deleteForm = async (id: number) => {
+export const deleteForm = async (formId: number) => {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/auth/login");
 
   const supabase = await createClient();
-  const { error } = await supabase.from("forms").delete().eq("id", id);
+  const { error } = await supabase.from("forms").delete().eq("id", formId);
   if (error) throw new Error("Form could not be deleted");
 
   revalidatePath("/forms");

@@ -3,17 +3,29 @@
 import Link from "next/link";
 import { Button } from "@/app/_components/ui/button";
 import { Separator } from "@/app/_components/ui/separator";
-import { deleteForm } from "@/app/_lib/actions";
 import { FormRow } from "@/app/(with-header)/forms/_lib/forms.db-types";
 import { formatDaysAgo } from "@/app/_utils/helper";
+import { useTransition } from "react";
+import { Spinner } from "@/app/_components/ui/spinner";
 
-const FormTile = ({ form }: { form: FormRow }) => {
+const FormTile = ({
+  form,
+  onDelete,
+}: {
+  form: FormRow;
+  onDelete: (id: number) => void;
+}) => {
+  const [isPending, startTransition] = useTransition();
+
   const handleDelete = async (
     e: React.MouseEvent<HTMLButtonElement>,
     id: number,
   ) => {
     e.preventDefault();
-    await deleteForm(id);
+
+    if (confirm("Are you sure you want to delete this form?")) {
+      startTransition(async () => onDelete(id));
+    }
   };
 
   return (
@@ -33,7 +45,7 @@ const FormTile = ({ form }: { form: FormRow }) => {
           className="w-20"
           onClick={(e) => handleDelete(e, form.id)}
         >
-          Delete
+          {isPending ? <Spinner /> : "Delete"}
         </Button>
       </Link>
       <Separator />

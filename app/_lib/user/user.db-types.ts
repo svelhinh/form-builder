@@ -4,7 +4,7 @@ import type {
   TablesUpdate,
 } from "../supabase/database.types";
 
-export type UserRow = Tables<"users">;
-export type UserInsert = TablesInsert<"users">;
-export type UserUpdate = TablesUpdate<"users">;
-export type UserDelete = TablesUpdate<"users">;
+export type UserRow = Tables<"user">;
+export type UserInsert = TablesInsert<"user">;
+export type UserUpdate = TablesUpdate<"user">;
+export type UserDelete = TablesUpdate<"user">;
