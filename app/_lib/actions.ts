@@ -29,7 +29,11 @@ export const deleteForm = async (formId: number) => {
   if (!session) redirect("/auth/login");
 
   const supabase = await createClient();
-  const { error } = await supabase.from("forms").delete().eq("id", formId);
+  const { error } = await supabase
+    .from("forms")
+    .delete()
+    .eq("owner_id", session.user.id)
+    .eq("id", formId);
   if (error) throw new Error("Form could not be deleted");
 
   revalidatePath("/forms");

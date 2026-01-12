@@ -9,7 +9,7 @@ const DraftFormPreview = () => {
   return (
     <div className="flex w-full flex-col gap-4">
       <h1 className="text-3xl">Form Preview</h1>
-      <FormPreview title={title} fields={fields} withSubmitButton={false} />
+      <FormPreview title={title} fields={fields} />
     </div>
   );
 };

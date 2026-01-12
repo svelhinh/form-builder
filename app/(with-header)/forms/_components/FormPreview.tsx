@@ -11,10 +11,9 @@ import { Button } from "@/app/_components/ui/button";
 type Props = {
   title: string;
   fields: FormFields;
-  withSubmitButton?: boolean;
 };
 
-const FormPreview = ({ title, fields, withSubmitButton = true }: Props) => {
+const FormPreview = ({ title, fields }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -35,6 +34,12 @@ const FormPreview = ({ title, fields, withSubmitButton = true }: Props) => {
               {field.type === "select" && <SelectFieldPreview field={field} />}
             </Fragment>
           ))}
+          <Button
+            className="bg-indigo-600 font-semibold text-white hover:bg-indigo-700 md:text-xl"
+            size="lg"
+          >
+            Submit
+          </Button>
         </FieldGroup>
       </FieldSet>
     </form>
