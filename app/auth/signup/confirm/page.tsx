@@ -3,15 +3,15 @@
 import AuthShell from "@/app/auth/_components/AuthShell";
 import { Button } from "@/app/_components/ui/button";
 import ConfirmSignUpFooter from "@/app/auth/signup/confirm/_components/ConfirmSignUpFooter";
-import { sendVerificationEmail } from "@/app/_lib/auth-client";
+import { sendVerificationEmail, useSession } from "@/app/_lib/auth-client";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Spinner } from "@/app/_components/ui/spinner";
 
 const Page = () => {
-  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
-  const email = "sergio93160@gmail.com";
+  const [loading, setLoading] = useState(false);
 
   return (
     <AuthShell
@@ -19,8 +19,8 @@ const Page = () => {
       description={
         <div className="text-center">
           Please check your inbox and click the link we&apos;ve sent to{" "}
-          <span className="font-semibold">{email}</span> to confirm your email
-          address.
+          <span className="font-semibold">{session?.user.email}</span> to
+          confirm your email address.
         </div>
       }
       footer={<ConfirmSignUpFooter />}
@@ -30,7 +30,7 @@ const Page = () => {
           setLoading(true);
           await sendVerificationEmail(
             {
-              email: email,
+              email: session?.user.email ?? "",
             },
             {
               onError: (ctx) => {

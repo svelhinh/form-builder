@@ -1,4 +1,4 @@
-import { Field } from "@/app/_components/ui/field";
+import { Field, FieldError } from "@/app/_components/ui/field";
 import {
   Select,
   SelectContent,
@@ -6,19 +6,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
+import { useState } from "react";
 import { FormField } from "../../_lib/fields.types";
 import FieldTitlePreview from "./FieldTitlePreview";
 
-const SelectFieldPreview = ({ field }: { field: FormField }) => {
+const SelectFieldPreview = ({
+  field,
+  error,
+  onClearError,
+  onValidate,
+}: {
+  field: FormField;
+  error?: string;
+  onClearError?: () => void;
+  onValidate?: () => void;
+}) => {
+  const [value, setValue] = useState<string>("");
+
   if (field.type !== "select") {
     return null;
   }
 
   return (
-    <Field>
+    <Field data-invalid={!!error}>
       <FieldTitlePreview title={field.title} isRequired={field.isRequired} />
-      <Select>
-        <SelectTrigger>
+      <input
+        id={field.id}
+        name={field.id}
+        value={value}
+        onChange={() => {}}
+        hidden
+        tabIndex={-1}
+        aria-hidden="true"
+        onBlur={() => onValidate?.()}
+      />
+
+      <Select
+        value={value}
+        onValueChange={(value) => {
+          setValue(value);
+          onClearError?.();
+          onValidate?.();
+        }}
+      >
+        <SelectTrigger
+          aria-invalid={!!error}
+          aria-describedby={error ? `${field.id}-error` : undefined}
+        >
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
@@ -29,6 +63,7 @@ const SelectFieldPreview = ({ field }: { field: FormField }) => {
           ))}
         </SelectContent>
       </Select>
+      {error && <FieldError id={`${field.id}-error`}>{error}</FieldError>}
     </Field>
   );
 };
