@@ -209,7 +209,10 @@ const FormPreview = ({ title, fields }: Props) => {
             </Fragment>
           ))}
           {fields.length > 0 && (
-            <Button className="font-semibold md:text-xl" size="lg">
+            <Button
+              className="dark:bg-secondary dark:text-secondary-foreground dark:hover:bg-secondary/80 font-semibold md:text-xl"
+              size="lg"
+            >
               Submit
             </Button>
           )}

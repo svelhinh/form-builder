@@ -7,7 +7,7 @@ const SaveButton = ({ disabled }: { disabled: boolean }) => {
 
   return (
     <Button
-      className="font-semibold md:text-xl"
+      className="dark:bg-secondary dark:text-secondary-foreground dark:hover:bg-secondary/80 font-semibold md:text-xl"
       size="lg"
       disabled={disabled || pending}
       type="submit"

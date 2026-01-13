@@ -12,7 +12,7 @@ export default async function AuthLayout({
   if (session) redirect("/forms");
 
   return (
-    <main className="flex h-screen items-center justify-center bg-linear-to-b from-indigo-500 to-violet-300">
+    <main className="flex h-screen items-center justify-center bg-linear-to-b from-indigo-500 to-violet-300 dark:bg-slate-900 dark:from-slate-900 dark:to-slate-800">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>

@@ -1,18 +1,14 @@
 "use client";
 
-import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Field, FieldGroup, FieldSet } from "@/app/_components/ui/field";
 import { Input } from "@/app/_components/ui/input";
 import { createForm } from "@/app/_lib/actions";
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
-import { HiOutlinePlus } from "react-icons/hi2";
 import { useFormDraftStore } from "../../_store/form-draft-store-provider";
+import AddFieldButton from "./AddFieldButton";
 import DraggableTile from "./DraggableTile";
 import SaveButton from "./SaveButton";
-import { useTheme } from "next-themes";
-import { cn } from "@/app/_lib/utils";
-import AddFieldButton from "./AddFieldButton";
 
 const FormBuilder = () => {
   const { title, setTitle, addField, fields, resetFormDraft, patchFields } =
