@@ -96,11 +96,7 @@ const ResetPasswordForm = () => {
             </InputGroup>
           </Field>
           <Field>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="text-md bg-indigo-600 hover:bg-indigo-700"
-            >
+            <Button type="submit" disabled={loading} className="text-md">
               {loading ? <Spinner /> : "Reset Password"}
             </Button>
           </Field>

@@ -1,5 +1,6 @@
 import "@/app/_styles/globals.css";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/app/_components/theme-provider";
 
 export default function RootLayout({
   children,
@@ -7,10 +8,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <main>{children}</main>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main>{children}</main>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

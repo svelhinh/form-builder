@@ -23,7 +23,7 @@ const DraggableTile = ({ field, index, isLast }: Props) => {
           <div
             className={[
               "p-4",
-              snapshot.isDragging ? "rounded-md bg-white shadow-sm" : "",
+              snapshot.isDragging ? "bg-card rounded-md shadow-sm" : "",
             ].join(" ")}
           >
             {field.type === "text" && <TextFieldBuilder fieldId={field.id} />}

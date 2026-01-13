@@ -89,7 +89,7 @@ const SignInForm = () => {
               <FieldLabel htmlFor="password">Password</FieldLabel>
               <Link
                 href="/auth/forgot-password"
-                className="text-sm text-indigo-600 underline hover:text-indigo-800"
+                className="text-primary hover:text-primary/80 text-sm underline"
               >
                 Forgot your password?
               </Link>
@@ -115,16 +115,11 @@ const SignInForm = () => {
               name="rememberMe"
               checked={rememberMe}
               onCheckedChange={() => setRememberMe(!rememberMe)}
-              className="data-[state=checked]:bg-indigo-600"
             />
             <FieldLabel htmlFor="rememberMe">Remember me</FieldLabel>
           </Field>
           <Field>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="text-md bg-indigo-600 hover:bg-indigo-700"
-            >
+            <Button type="submit" disabled={loading} className="text-md">
               {loading ? <Spinner /> : "Login"}
             </Button>
             <Button

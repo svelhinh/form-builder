@@ -131,11 +131,7 @@ const SignInForm = () => {
             </Field>
           </FieldGroup>
           <Field>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="text-md bg-indigo-600 hover:bg-indigo-700"
-            >
+            <Button type="submit" disabled={loading} className="text-md">
               {loading ? <Spinner /> : "Create an account"}
             </Button>
           </Field>

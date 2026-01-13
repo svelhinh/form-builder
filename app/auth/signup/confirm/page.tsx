@@ -44,7 +44,7 @@ const Page = () => {
           setLoading(false);
         }}
         disabled={loading}
-        className="text-md mt-5 w-full bg-indigo-600 hover:bg-indigo-700"
+        className="text-md mt-5 w-full"
       >
         {loading ? <Spinner /> : "Resend Email"}
       </Button>

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "../_lib/auth";
 import { headers } from "next/headers";
+import ThemeToggle from "../_components/ThemeToggle";
 
 export default async function AuthLayout({
   children,
@@ -12,6 +13,9 @@ export default async function AuthLayout({
 
   return (
     <main className="flex h-screen items-center justify-center bg-linear-to-b from-indigo-500 to-violet-300">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       {children}
     </main>
   );

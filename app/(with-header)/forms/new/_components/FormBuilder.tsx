@@ -10,18 +10,13 @@ import { HiOutlinePlus } from "react-icons/hi2";
 import { useFormDraftStore } from "../../_store/form-draft-store-provider";
 import DraggableTile from "./DraggableTile";
 import SaveButton from "./SaveButton";
+import { useTheme } from "next-themes";
+import { cn } from "@/app/_lib/utils";
+import AddFieldButton from "./AddFieldButton";
 
 const FormBuilder = () => {
   const { title, setTitle, addField, fields, resetFormDraft, patchFields } =
     useFormDraftStore((state) => state);
-
-  const handleAddField = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    type: "text" | "number" | "select",
-  ) => {
-    e.preventDefault();
-    addField(type);
-  };
 
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -91,30 +86,9 @@ const FormBuilder = () => {
                 </Card>
               )}
               <Field orientation="horizontal" className="flex-wrap">
-                <Button
-                  onClick={(e) => handleAddField(e, "text")}
-                  variant="outline"
-                  className="w-1/3 border-indigo-600 text-indigo-600 hover:border-indigo-700 hover:text-indigo-700"
-                >
-                  <HiOutlinePlus />
-                  Add Text Field
-                </Button>
-                <Button
-                  onClick={(e) => handleAddField(e, "number")}
-                  variant="outline"
-                  className="w-1/3 border-indigo-600 text-indigo-600 hover:border-indigo-700 hover:text-indigo-700"
-                >
-                  <HiOutlinePlus />
-                  Add Number Field
-                </Button>
-                <Button
-                  onClick={(e) => handleAddField(e, "select")}
-                  variant="outline"
-                  className="w-1/3 border-indigo-600 text-indigo-600 hover:border-indigo-700 hover:text-indigo-700"
-                >
-                  <HiOutlinePlus />
-                  Add Select Field
-                </Button>
+                <AddFieldButton onAddField={addField} type="text" />
+                <AddFieldButton onAddField={addField} type="number" />
+                <AddFieldButton onAddField={addField} type="select" />
               </Field>
               <Field>
                 <SaveButton disabled={fields.length === 0} />

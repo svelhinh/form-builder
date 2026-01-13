@@ -10,6 +10,8 @@ import {
 } from "@/app/_components/ui/card";
 import { Separator } from "@/app/_components/ui/separator";
 import logoDark from "@/public/logo-dark.png";
+import logo from "@/public/logo.png";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 
 const AuthShell = ({
@@ -23,14 +25,21 @@ const AuthShell = ({
   children: React.ReactNode;
   footer?: React.ReactNode;
 }) => {
+  const { theme } = useTheme();
+
   return (
     <Card className="items-center px-32 py-12">
       <CardHeader className="w-full gap-10">
         <CardTitle className="flex justify-center">
-          <Image src={logoDark} alt="Logo" width={200} height={200} />
+          <Image
+            src={theme === "dark" ? logo : logoDark}
+            alt="Logo"
+            width={200}
+            height={200}
+          />
         </CardTitle>
         {title && (
-          <CardTitle className="flex justify-center text-center text-2xl font-semibold text-gray-600">
+          <CardTitle className="flex justify-center text-center text-2xl font-semibold">
             {title}
           </CardTitle>
         )}
