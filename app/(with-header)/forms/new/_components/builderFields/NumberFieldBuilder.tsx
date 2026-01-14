@@ -1,11 +1,20 @@
-import { Field, FieldGroup, FieldLabel } from "@/app/_components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/app/_components/ui/field";
 import { Input } from "@/app/_components/ui/input";
 import FieldHeaderBuilder from "./FieldHeaderBuilder";
 import FieldTitleBuilder from "./FieldTitleBuilder";
 import { useFormDraftStore } from "@/app/(with-header)/forms/_store/form-draft-store-provider";
 
 const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
-  const { patchField } = useFormDraftStore((state) => state);
+  const { patchField, fields } = useFormDraftStore((state) => state);
+  const currentField = fields.find((f) => f.id === fieldId);
+
+  const hasInvalidMinMax =
+    currentField?.type === "number" &&
+    typeof currentField.min === "number" &&
+    typeof currentField.max === "number" &&
+    !Number.isNaN(currentField.min) &&
+    !Number.isNaN(currentField.max) &&
+    currentField.max < currentField.min;
 
   return (
     <>
@@ -36,6 +45,11 @@ const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
             }
           />
         </Field>
+        {hasInvalidMinMax && (
+          <FieldError>
+            Maximum must be greater than or equal to minimum.
+          </FieldError>
+        )}
       </FieldGroup>
     </>
   );

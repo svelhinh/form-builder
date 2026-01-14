@@ -14,6 +14,16 @@ const FormBuilder = () => {
   const { title, setTitle, addField, fields, resetFormDraft, patchFields } =
     useFormDraftStore((state) => state);
 
+  const hasInvalidNumberMinMax = fields.some(
+    (field) =>
+      field.type === "number" &&
+      typeof field.min === "number" &&
+      typeof field.max === "number" &&
+      !Number.isNaN(field.min) &&
+      !Number.isNaN(field.max) &&
+      field.max < field.min,
+  );
+
   const handleDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
@@ -38,6 +48,11 @@ const FormBuilder = () => {
           action={async (formData: FormData) => {
             await createForm(formData);
             resetFormDraft();
+          }}
+          onSubmit={(e) => {
+            if (hasInvalidNumberMinMax) {
+              e.preventDefault();
+            }
           }}
         >
           <FieldSet>
@@ -87,7 +102,9 @@ const FormBuilder = () => {
                 <AddFieldButton onAddField={addField} type="select" />
               </Field>
               <Field>
-                <SaveButton disabled={fields.length === 0} />
+                <SaveButton
+                  disabled={fields.length === 0 || hasInvalidNumberMinMax}
+                />
               </Field>
             </FieldGroup>
           </FieldSet>

@@ -6,63 +6,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/_components/ui/select";
-import { useState } from "react";
+import { Control, Controller, FieldValues } from "react-hook-form";
 import { FormField } from "../../_lib/fields.types";
 import FieldTitlePreview from "./FieldTitlePreview";
 
 const SelectFieldPreview = ({
   field,
   error,
-  onClearError,
-  onValidate,
+  control,
 }: {
   field: FormField;
   error?: string;
-  onClearError?: () => void;
-  onValidate?: () => void;
+  control: Control<FieldValues>;
 }) => {
-  const [value, setValue] = useState<string>("");
-
-  if (field.type !== "select") {
-    return null;
-  }
+  if (field.type !== "select") return null;
 
   return (
     <Field data-invalid={!!error}>
       <FieldTitlePreview title={field.title} isRequired={field.isRequired} />
-      <input
-        id={field.id}
+
+      <Controller
+        control={control}
         name={field.id}
-        value={value}
-        onChange={() => {}}
-        hidden
-        tabIndex={-1}
-        aria-hidden="true"
-        onBlur={() => onValidate?.()}
+        render={({ field: rhf }) => (
+          <Select
+            value={typeof rhf.value === "string" ? rhf.value : ""}
+            onValueChange={(value) => rhf.onChange(value)}
+          >
+            <SelectTrigger
+              aria-invalid={!!error}
+              aria-describedby={error ? `${field.id}-error` : undefined}
+            >
+              <SelectValue placeholder="Select an option" />
+            </SelectTrigger>
+            <SelectContent>
+              {field.options.map((option) => (
+                <SelectItem key={option.id} value={option.id.toString()}>
+                  {option.label ? option.label : "Untitled Option"}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
       />
 
-      <Select
-        value={value}
-        onValueChange={(value) => {
-          setValue(value);
-          onClearError?.();
-          onValidate?.();
-        }}
-      >
-        <SelectTrigger
-          aria-invalid={!!error}
-          aria-describedby={error ? `${field.id}-error` : undefined}
-        >
-          <SelectValue placeholder="Select an option" />
-        </SelectTrigger>
-        <SelectContent>
-          {field.options.map((option) => (
-            <SelectItem key={option.id} value={option.id.toString()}>
-              {option.label ? option.label : "Untitled Option"}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
       {error && <FieldError id={`${field.id}-error`}>{error}</FieldError>}
     </Field>
   );

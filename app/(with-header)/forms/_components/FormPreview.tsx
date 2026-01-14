@@ -9,6 +9,8 @@ import { FormFields } from "../_lib/fields.types";
 import NumberFieldPreview from "./previewFields/NumberFieldPreview";
 import SelectFieldPreview from "./previewFields/SelectFieldPreview";
 import TextFieldPreview from "./previewFields/TextFieldPreview";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
   title: string;
@@ -92,87 +94,32 @@ function buildSchema(fields: FormFields) {
 }
 
 const FormPreview = ({ title, fields }: Props) => {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const formRef = useRef<HTMLFormElement | null>(null);
   const schema = useMemo(() => buildSchema(fields), [fields]);
 
-  const clearError = (fieldId: string) => {
-    setErrors((prev) => {
-      if (!prev[fieldId]) return prev;
-      const next = { ...prev };
-      delete next[fieldId];
-      return next;
-    });
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    resolver: zodResolver(schema),
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
+
+  const getError = (fieldId: string) => {
+    const err = errors?.[fieldId as keyof typeof errors] as
+      | { message?: unknown }
+      | undefined;
+    return typeof err?.message === "string" ? err.message : undefined;
   };
 
-  const validate = () => {
-    const form = formRef.current;
-    if (!form) return null;
-
-    const rawValues = Object.fromEntries(new FormData(form).entries());
-    return schema.safeParse(rawValues);
-  };
-
-  type ErrorTree = ReturnType<typeof z.treeifyError> & {
-    properties?: Record<string, { errors?: string[] }>;
-  };
-
-  const getFieldError = (tree: ErrorTree, fieldId: string) => {
-    return tree.properties?.[fieldId]?.errors?.[0];
-  };
-
-  const getAllErrors = (tree: ErrorTree) => {
-    const nextErrors: Record<string, string> = {};
-
-    for (const field of fields) {
-      const msg = getFieldError(tree, field.id);
-      if (msg) nextErrors[field.id] = msg;
-    }
-
-    return nextErrors;
-  };
-
-  const validateField = (fieldId: string) => {
-    const result = validate();
-    if (!result) return;
-
-    if (result.success) {
-      clearError(fieldId);
-      return;
-    }
-
-    const tree = z.treeifyError(result.error) as ErrorTree;
-    const msg = getFieldError(tree, fieldId);
-
-    setErrors((prev) => {
-      if (!msg) {
-        if (!prev[fieldId]) return prev;
-        const next = { ...prev };
-        delete next[fieldId];
-        return next;
-      }
-      return { ...prev, [fieldId]: msg };
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const result = validate();
-    if (!result) return;
-
-    if (result.success) {
-      setErrors({});
-      return;
-    }
-
-    const tree = z.treeifyError(result.error) as ErrorTree;
-    setErrors(getAllErrors(tree));
-  };
+  const onSubmit = handleSubmit(async (data: FieldValues) => {
+    void data;
+  });
 
   return (
-    <form noValidate onSubmit={handleSubmit} ref={formRef}>
+    <form noValidate onSubmit={onSubmit}>
       <FieldSet>
         {title ? (
           <h1 className="text-2xl">{title}</h1>
@@ -185,25 +132,22 @@ const FormPreview = ({ title, fields }: Props) => {
               {field.type === "text" && (
                 <TextFieldPreview
                   field={field}
-                  error={errors[field.id]}
-                  onClearError={() => clearError(field.id)}
-                  onValidate={() => validateField(field.id)}
+                  error={getError(field.id)}
+                  register={register}
                 />
               )}
               {field.type === "number" && (
                 <NumberFieldPreview
                   field={field}
-                  error={errors[field.id]}
-                  onClearError={() => clearError(field.id)}
-                  onValidate={() => validateField(field.id)}
+                  error={getError(field.id)}
+                  register={register}
                 />
               )}
               {field.type === "select" && (
                 <SelectFieldPreview
                   field={field}
-                  error={errors[field.id]}
-                  onClearError={() => clearError(field.id)}
-                  onValidate={() => validateField(field.id)}
+                  error={getError(field.id)}
+                  control={control}
                 />
               )}
             </Fragment>
