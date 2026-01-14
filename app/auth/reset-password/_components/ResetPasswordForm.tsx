@@ -3,8 +3,8 @@
 import { Button } from "@/app/_components/ui/button";
 import {
   Field,
+  FieldError,
   FieldGroup,
-  FieldLabel,
   FieldSet,
 } from "@/app/_components/ui/field";
 import {
@@ -14,14 +14,17 @@ import {
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
 import { resetPassword } from "@/app/_lib/auth-client";
+import {
+  ResetPasswordInput,
+  resetPasswordSchema,
+} from "@/app/_lib/validation/auth.schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LockIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
 const ResetPasswordForm = () => {
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
@@ -29,72 +32,109 @@ const ResetPasswordForm = () => {
 
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<ResetPasswordInput>({
+    resolver: zodResolver(resetPasswordSchema),
+    mode: "onBlur",
+    defaultValues: {
+      token: token ?? "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+  });
+
+  const onSubmit = handleSubmit(async (data: ResetPasswordInput) => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-      if (!token) throw new Error("Invalid token");
       await resetPassword({
-        newPassword: newPassword,
-        token: token,
+        token: data.token,
+        newPassword: data.newPassword,
         fetchOptions: {
           onError: (ctx) => {
-            toast.error(ctx.error.message);
+            setError("root.server", {
+              message: ctx.error.message,
+            });
           },
           onSuccess: () => {
             router.push("/auth/reset-password/success");
           },
         },
       });
-    } catch (error) {
-      toast.error((error as Error).message);
+    } catch (err) {
+      setError("root.server", {
+        message: err instanceof Error ? err.message : "Something went wrong",
+      });
     } finally {
       setLoading(false);
     }
-  };
+  });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form noValidate onSubmit={onSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="password">New Password</FieldLabel>
+          <Field data-invalid={!!errors.newPassword}>
             <InputGroup>
               <InputGroupInput
-                id="password"
-                name="password"
+                {...register("newPassword")}
+                id="newPassword"
+                name="newPassword"
                 type="password"
-                placeholder="********"
+                placeholder="New Password"
                 required
                 className="pl-10"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                aria-invalid={!!errors.newPassword}
+                aria-describedby={
+                  errors.newPassword ? "newPassword-error" : undefined
+                }
               />
               <InputGroupAddon>
                 <LockIcon />
               </InputGroupAddon>
             </InputGroup>
+            {errors.newPassword && (
+              <FieldError id="newPassword-error">
+                {errors.newPassword.message}
+              </FieldError>
+            )}
           </Field>
-          <Field>
-            <FieldLabel htmlFor="confirmNewPassword">
-              Confirm New Password
-            </FieldLabel>
+          <Field data-invalid={!!errors.confirmNewPassword}>
             <InputGroup>
               <InputGroupInput
+                {...register("confirmNewPassword")}
                 id="confirmNewPassword"
                 name="confirmNewPassword"
                 type="password"
-                placeholder="********"
+                placeholder="Confirm New Password"
                 required
                 className="pl-10"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
+                aria-invalid={!!errors.confirmNewPassword}
+                aria-describedby={
+                  errors.confirmNewPassword
+                    ? "confirmNewPassword-error"
+                    : undefined
+                }
               />
               <InputGroupAddon>
                 <LockIcon />
               </InputGroupAddon>
             </InputGroup>
+            {errors.confirmNewPassword && (
+              <FieldError id="confirmNewPassword-error">
+                {errors.confirmNewPassword.message}
+              </FieldError>
+            )}
           </Field>
+          {errors.root?.server?.message && (
+            <FieldError className="text-center">
+              {errors.root?.server?.message}
+            </FieldError>
+          )}
           <Field>
             <Button type="submit" disabled={loading} className="text-md">
               {loading ? <Spinner /> : "Reset Password"}

@@ -4,6 +4,7 @@ import { Button } from "@/app/_components/ui/button";
 import { Checkbox } from "@/app/_components/ui/checkbox";
 import {
   Field,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSet,
@@ -15,109 +16,152 @@ import {
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
 import { signIn } from "@/app/_lib/auth-client";
+import {
+  SignInEmailInput,
+  signInEmailSchema,
+} from "@/app/_lib/validation/auth.schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LockIcon, MailIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
 const SignInForm = () => {
-  const [email, setEmail] = useState("sergio93160@gmail.com");
-  const [password, setPassword] = useState("pass1234");
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignInEmailInput>({
+    resolver: zodResolver(signInEmailSchema),
+    mode: "onBlur",
+    defaultValues: {
+      email: "sergio93160@gmail.com",
+      password: "pass1234",
+      rememberMe: true,
+    },
+  });
 
+  const onSubmit = handleSubmit(async (data: SignInEmailInput) => {
     setLoading(true);
-    await signIn.email({
-      email: email,
-      password: password,
-      rememberMe: rememberMe,
-      callbackURL: "/forms",
-      fetchOptions: {
-        onError: (ctx) => {
-          toast.error(ctx.error.message);
+
+    try {
+      await signIn.email({
+        email: data.email,
+        password: data.password,
+        rememberMe: data.rememberMe,
+        callbackURL: "/forms",
+        fetchOptions: {
+          onError: (ctx) => {
+            setError("root.server", {
+              message: ctx.error.message,
+            });
+          },
         },
-      },
-    });
-    setLoading(false);
-  };
+      });
+    } finally {
+      setLoading(false);
+    }
+  });
 
   const handleGoogleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     setLoading(true);
-    await signIn.social({
-      provider: "google",
-      callbackURL: "/forms",
-      errorCallbackURL: "/auth/login",
-      fetchOptions: {
-        onError: (ctx) => {
-          toast.error(ctx.error.message);
+
+    try {
+      await signIn.social({
+        provider: "google",
+        callbackURL: "/forms",
+        errorCallbackURL: "/auth/login",
+        fetchOptions: {
+          onError: (ctx) => {
+            setError("root.server", {
+              message: ctx.error.message,
+            });
+          },
         },
-      },
-    });
-    setLoading(false);
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form noValidate onSubmit={onSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Field data-invalid={!!errors.email}>
             <InputGroup>
               <InputGroupInput
+                {...register("email")}
                 id="email"
                 name="email"
                 type="email"
-                placeholder="name@example.com"
+                placeholder="Email"
                 required
                 className="pl-10"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
               <InputGroupAddon>
                 <MailIcon />
               </InputGroupAddon>
             </InputGroup>
+            {errors.email && (
+              <FieldError id="email-error">{errors.email.message}</FieldError>
+            )}
           </Field>
-          <Field>
-            <div className="flex justify-between">
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Link
-                href="/auth/forgot-password"
-                className="text-primary hover:text-primary/80 text-sm underline"
-              >
-                Forgot your password?
-              </Link>
-            </div>
+          <Field data-invalid={!!errors.password}>
             <InputGroup>
               <InputGroupInput
+                {...register("password")}
                 id="password"
                 name="password"
                 type="password"
-                placeholder="********"
+                placeholder="Password"
                 required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                aria-invalid={!!errors.password}
+                aria-describedby={
+                  errors.password ? "password-error" : undefined
+                }
               />
               <InputGroupAddon>
                 <LockIcon />
               </InputGroupAddon>
             </InputGroup>
+            {errors.password && (
+              <FieldError id="password-error">
+                {errors.password.message}
+              </FieldError>
+            )}
           </Field>
-          <Field orientation="horizontal">
+          <Field orientation="horizontal" data-invalid={!!errors.rememberMe}>
             <Checkbox
+              {...register("rememberMe")}
               id="rememberMe"
               name="rememberMe"
-              checked={rememberMe}
-              onCheckedChange={() => setRememberMe(!rememberMe)}
             />
             <FieldLabel htmlFor="rememberMe">Remember me</FieldLabel>
+            <Link
+              href="/auth/forgot-password"
+              className="text-primary hover:text-primary/80 text-sm underline"
+            >
+              Forgot your password?
+            </Link>
+            {errors.rememberMe && (
+              <FieldError id="rememberMe-error">
+                {errors.rememberMe.message}
+              </FieldError>
+            )}
           </Field>
+          {errors.root?.server?.message && (
+            <FieldError className="text-center">
+              {errors.root?.server?.message}
+            </FieldError>
+          )}
           <Field>
             <Button type="submit" disabled={loading} className="text-md">
               {loading ? <Spinner /> : "Login"}

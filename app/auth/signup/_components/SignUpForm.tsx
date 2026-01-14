@@ -3,8 +3,8 @@
 import { Button } from "@/app/_components/ui/button";
 import {
   Field,
+  FieldError,
   FieldGroup,
-  FieldLabel,
   FieldSet,
 } from "@/app/_components/ui/field";
 import {
@@ -14,122 +14,168 @@ import {
 } from "@/app/_components/ui/input-group";
 import { Spinner } from "@/app/_components/ui/spinner";
 import { signUp } from "@/app/_lib/auth-client";
+import {
+  SignUpEmailInput,
+  signUpEmailSchema,
+} from "@/app/_lib/validation/auth.schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LockIcon, MailIcon, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 
-const SignInForm = () => {
-  const [name, setName] = useState("Toto");
-  const [email, setEmail] = useState("sergio93160@gmail.com");
-  const [password, setPassword] = useState("pass1234");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("pass1234");
+const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignUpEmailInput>({
+    resolver: zodResolver(signUpEmailSchema),
+    mode: "onBlur",
+    defaultValues: {
+      name: "Toto",
+      email: "sergio93160@gmail.com",
+      password: "pass1234",
+      passwordConfirmation: "pass1234",
+    },
+  });
 
+  const onSubmit = handleSubmit(async (data: SignUpEmailInput) => {
     setLoading(true);
 
-    await signUp.email({
-      name: name,
-      email: email,
-      password: password,
-      fetchOptions: {
-        onError: (ctx) => {
-          toast.error(ctx.error.message);
+    try {
+      await signUp.email({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        fetchOptions: {
+          onError: (ctx) => {
+            setError("root.server", {
+              message: ctx.error.message,
+            });
+          },
+          onSuccess: () => {
+            router.push("/auth/signup/confirm");
+          },
         },
-        onSuccess: () => {
-          router.push("/auth/signup/confirm");
-        },
-      },
-    });
-
-    setLoading(false);
-  };
+      });
+    } finally {
+      setLoading(false);
+    }
+  });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form noValidate onSubmit={onSubmit}>
       <FieldSet className="flex flex-col gap-6">
         <FieldGroup>
-          <Field>
-            <FieldLabel htmlFor="name">Name</FieldLabel>
+          <Field data-invalid={!!errors.name}>
             <InputGroup>
               <InputGroupInput
+                {...register("name")}
                 id="name"
                 name="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Name"
                 required
                 className="pl-10"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                aria-invalid={!!errors.name}
+                aria-describedby={errors.name ? "name-error" : undefined}
               />
               <InputGroupAddon>
                 <UserIcon />
               </InputGroupAddon>
             </InputGroup>
+            {errors.name && (
+              <FieldError id="name-error">{errors.name.message}</FieldError>
+            )}
           </Field>
-          <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+          <Field data-invalid={!!errors.email}>
             <InputGroup>
               <InputGroupInput
+                {...register("email")}
                 id="email"
                 name="email"
                 type="email"
-                placeholder="name@example.com"
+                placeholder="Email"
                 required
                 className="pl-10"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
               <InputGroupAddon>
                 <MailIcon />
               </InputGroupAddon>
             </InputGroup>
+            {errors.email && (
+              <FieldError id="email-error">{errors.email.message}</FieldError>
+            )}
           </Field>
           <FieldGroup className="flex flex-row gap-6">
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+            <Field data-invalid={!!errors.password}>
               <InputGroup>
                 <InputGroupInput
+                  {...register("password")}
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="********"
+                  placeholder="Password"
                   required
-                  value={password}
                   autoComplete="new-password"
-                  onChange={(e) => setPassword(e.target.value)}
+                  aria-invalid={!!errors.password}
+                  aria-describedby={
+                    errors.password ? "password-error" : undefined
+                  }
                 />
                 <InputGroupAddon>
                   <LockIcon />
                 </InputGroupAddon>
               </InputGroup>
+              {errors.password && (
+                <FieldError id="password-error">
+                  {errors.password.message}
+                </FieldError>
+              )}
             </Field>
-            <Field>
-              <FieldLabel htmlFor="passwordConfirmation">
-                Confirm Password
-              </FieldLabel>
+            <Field data-invalid={!!errors.passwordConfirmation}>
               <InputGroup>
                 <InputGroupInput
+                  {...register("passwordConfirmation")}
                   id="passwordConfirmation"
                   name="passwordConfirmation"
                   type="password"
-                  placeholder="********"
+                  placeholder="Confirm Password"
                   required
-                  value={passwordConfirmation}
                   autoComplete="new-password"
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
+                  aria-invalid={!!errors.passwordConfirmation}
+                  aria-describedby={
+                    errors.passwordConfirmation
+                      ? "passwordConfirmation-error"
+                      : undefined
+                  }
                 />
                 <InputGroupAddon>
                   <LockIcon />
                 </InputGroupAddon>
               </InputGroup>
+              {errors.passwordConfirmation && (
+                <FieldError id="passwordConfirmation-error">
+                  {errors.passwordConfirmation.message}
+                </FieldError>
+              )}
             </Field>
           </FieldGroup>
+
+          {errors.root?.server?.message && (
+            <FieldError className="text-center">
+              {errors.root?.server?.message}
+            </FieldError>
+          )}
+
           <Field>
             <Button type="submit" disabled={loading} className="text-md">
               {loading ? <Spinner /> : "Create an account"}
@@ -141,4 +187,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;
