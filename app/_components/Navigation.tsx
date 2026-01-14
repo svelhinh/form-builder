@@ -18,7 +18,9 @@ const Navigation = () => {
   return (
     <div className="flex items-center gap-8">
       {session && (
-        <p className="text-lg text-white">Welcome, {session?.user.name}</p>
+        <Link href="/account" className="text-lg text-white hover:underline">
+          Welcome, {session?.user.name}
+        </Link>
       )}
       <nav className="z-10">
         <ul className="flex flex-row gap-6">

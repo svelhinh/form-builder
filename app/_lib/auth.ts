@@ -43,4 +43,20 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
+  user: {
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({ user, url }) => {
+        await resend.emails.send({
+          from: "Form Builder <onboarding@resend.dev>",
+          to: user.email,
+          subject: "Confirm account deletion",
+          html: `
+            <p>Click the link to confirm that you want to delete your account:</p>
+            <p><a href="${url}">Confirm deletion</a></p>
+          `,
+        });
+      },
+    },
+  },
 });
