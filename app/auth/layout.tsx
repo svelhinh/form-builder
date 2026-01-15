@@ -2,6 +2,12 @@ import { redirect } from "next/navigation";
 import { auth } from "../_lib/auth";
 import { headers } from "next/headers";
 import ThemeToggle from "../_components/ThemeToggle";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Auth",
+  description: "Authentication for Form Builder",
+};
 
 export default async function AuthLayout({
   children,

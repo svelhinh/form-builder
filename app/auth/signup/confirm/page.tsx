@@ -1,17 +1,11 @@
-"use client";
-
+import { auth } from "@/app/_lib/auth";
 import AuthShell from "@/app/auth/_components/AuthShell";
-import { Button } from "@/app/_components/ui/button";
 import ConfirmSignUpFooter from "@/app/auth/signup/confirm/_components/ConfirmSignUpFooter";
-import { sendVerificationEmail, useSession } from "@/app/_lib/auth-client";
-import { useState } from "react";
-import { toast } from "sonner";
-import { Spinner } from "@/app/_components/ui/spinner";
+import { headers } from "next/headers";
+import ResendEmailButton from "./_components/ResendEmailButton";
 
-const Page = () => {
-  const { data: session } = useSession();
-
-  const [loading, setLoading] = useState(false);
+const Page = async () => {
+  const session = await auth.api.getSession({ headers: await headers() });
 
   return (
     <AuthShell
@@ -25,29 +19,7 @@ const Page = () => {
       }
       footer={<ConfirmSignUpFooter />}
     >
-      <Button
-        onClick={async () => {
-          setLoading(true);
-          await sendVerificationEmail(
-            {
-              email: session?.user.email ?? "",
-            },
-            {
-              onError: (ctx) => {
-                toast.error(ctx.error.message);
-              },
-              onSuccess: () => {
-                toast.success("Email sent successfully");
-              },
-            },
-          );
-          setLoading(false);
-        }}
-        disabled={loading}
-        className="text-md mt-5 w-full"
-      >
-        {loading ? <Spinner /> : "Resend Email"}
-      </Button>
+      <ResendEmailButton email={session?.user.email ?? ""} />
     </AuthShell>
   );
 };

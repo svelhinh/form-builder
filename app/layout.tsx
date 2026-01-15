@@ -1,6 +1,15 @@
 import "@/app/_styles/globals.css";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/app/_components/theme-provider";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Form Builder",
+    template: "%s • Form Builder",
+  },
+  description: "Build simple forms with live preview.",
+};
 
 export default function RootLayout({
   children,

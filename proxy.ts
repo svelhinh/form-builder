@@ -8,9 +8,14 @@ export function proxy(req: NextRequest) {
 
   const isAuthRoute = pathname === "/auth" || pathname.startsWith("/auth/");
   const isFormsRoute = pathname === "/forms" || pathname.startsWith("/forms/");
+  const isAccountRoute =
+    pathname === "/account" || pathname.startsWith("/account/");
 
   // Unauthed: root/forms -> login
-  if (!hasSessionCookie && (pathname === "/" || isFormsRoute)) {
+  if (
+    !hasSessionCookie &&
+    (pathname === "/" || isFormsRoute || isAccountRoute)
+  ) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 
