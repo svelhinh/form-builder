@@ -13,11 +13,15 @@ const SelectFieldBuilder = ({
   fieldId: string;
   options: { id: string; label: string }[];
 }) => {
-  const {
-    addOptionOnSelectField,
-    patchOptionOnSelectField,
-    removeOptionOnSelectField,
-  } = useFormDraftStore((state) => state);
+  const addOptionOnSelectField = useFormDraftStore(
+    (state) => state.addOptionOnSelectField,
+  );
+  const patchOptionOnSelectField = useFormDraftStore(
+    (state) => state.patchOptionOnSelectField,
+  );
+  const removeOptionOnSelectField = useFormDraftStore(
+    (state) => state.removeOptionOnSelectField,
+  );
 
   const handlePatchOptionOnSelectField = (
     e: React.ChangeEvent<HTMLInputElement>,
