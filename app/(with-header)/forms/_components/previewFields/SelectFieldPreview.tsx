@@ -9,6 +9,7 @@ import {
 import { Control, Controller, FieldValues } from "react-hook-form";
 import { FormField } from "../../_lib/fields.types";
 import FieldTitlePreview from "./FieldTitlePreview";
+import { memo } from "react";
 
 const SelectFieldPreview = ({
   field,
@@ -55,4 +56,4 @@ const SelectFieldPreview = ({
   );
 };
 
-export default SelectFieldPreview;
+export default memo(SelectFieldPreview);

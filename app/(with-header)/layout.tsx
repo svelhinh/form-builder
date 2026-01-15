@@ -14,7 +14,7 @@ export default async function WithHeaderLayout({
 
   return (
     <>
-      <Header />
+      <Header userName={session.user.name} />
       <main>{children}</main>
     </>
   );

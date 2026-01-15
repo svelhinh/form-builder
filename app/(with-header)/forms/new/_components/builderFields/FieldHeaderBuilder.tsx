@@ -10,7 +10,7 @@ const FieldHeaderBuilder = ({
   fieldId: string;
   title: string;
 }) => {
-  const removeField = useFormDraftStore((state) => state.removeField);
+  const removeField = useFormDraftStore((s) => s.removeField);
 
   const handleRemoveField = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -1,18 +1,19 @@
 "use client";
 
+import { FormListRow } from "@/app/(with-header)/forms/_lib/forms.db-types";
+import { deleteForm } from "@/app/_lib/actions";
+import { useToast } from "@/app/_utils/use-toast";
 import { useOptimistic } from "react";
 import FormTile from "./FormTile";
-import { FormRow } from "@/app/(with-header)/forms/_lib/forms.db-types";
-import { deleteForm } from "@/app/_lib/actions";
-import { toast } from "sonner";
 
-const FormsList = ({ forms }: { forms: FormRow[] }) => {
+const FormsList = ({ forms }: { forms: FormListRow[] }) => {
   const [optimisticForms, optimisticDelete] = useOptimistic(
     forms,
     (curForms, formId) => {
       return curForms.filter((form) => form.id !== formId);
     },
   );
+  const toast = useToast();
 
   const handleDelete = async (formId: number) => {
     optimisticDelete(formId);
@@ -26,7 +27,7 @@ const FormsList = ({ forms }: { forms: FormRow[] }) => {
   return (
     <>
       {optimisticForms.length > 0 ? (
-        optimisticForms.map((form: FormRow) => (
+        optimisticForms.map((form: FormListRow) => (
           <FormTile key={form.id} form={form} onDelete={handleDelete} />
         ))
       ) : (

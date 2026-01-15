@@ -11,12 +11,12 @@ import DraggableTile from "./DraggableTile";
 import SaveButton from "./SaveButton";
 
 const FormBuilder = () => {
-  const title = useFormDraftStore((state) => state.title);
-  const setTitle = useFormDraftStore((state) => state.setTitle);
-  const addField = useFormDraftStore((state) => state.addField);
-  const fields = useFormDraftStore((state) => state.fields);
-  const resetFormDraft = useFormDraftStore((state) => state.resetFormDraft);
-  const patchFields = useFormDraftStore((state) => state.patchFields);
+  const title = useFormDraftStore((s) => s.title);
+  const setTitle = useFormDraftStore((s) => s.setTitle);
+  const addField = useFormDraftStore((s) => s.addField);
+  const fields = useFormDraftStore((s) => s.fields);
+  const resetFormDraft = useFormDraftStore((s) => s.resetFormDraft);
+  const patchFields = useFormDraftStore((s) => s.patchFields);
 
   const hasInvalidNumberMinMax = fields.some(
     (field) =>

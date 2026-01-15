@@ -14,13 +14,13 @@ const SelectFieldBuilder = ({
   options: { id: string; label: string }[];
 }) => {
   const addOptionOnSelectField = useFormDraftStore(
-    (state) => state.addOptionOnSelectField,
+    (s) => s.addOptionOnSelectField,
   );
   const patchOptionOnSelectField = useFormDraftStore(
-    (state) => state.patchOptionOnSelectField,
+    (s) => s.patchOptionOnSelectField,
   );
   const removeOptionOnSelectField = useFormDraftStore(
-    (state) => state.removeOptionOnSelectField,
+    (s) => s.removeOptionOnSelectField,
   );
 
   const handlePatchOptionOnSelectField = (

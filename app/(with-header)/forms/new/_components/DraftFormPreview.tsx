@@ -4,8 +4,8 @@ import FormPreview from "@/app/(with-header)/forms/_components/FormPreview";
 import { useFormDraftStore } from "@/app/(with-header)/forms/_store/form-draft-store-provider";
 
 const DraftFormPreview = () => {
-  const title = useFormDraftStore((state) => state.title);
-  const fields = useFormDraftStore((state) => state.fields);
+  const title = useFormDraftStore((s) => s.title);
+  const fields = useFormDraftStore((s) => s.fields);
 
   return (
     <div className="flex w-full flex-col gap-4">

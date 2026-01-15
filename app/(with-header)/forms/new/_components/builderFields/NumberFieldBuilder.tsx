@@ -10,10 +10,10 @@ import FieldTitleBuilder from "./FieldTitleBuilder";
 import { useFormDraftStore } from "@/app/(with-header)/forms/_store/form-draft-store-provider";
 
 const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
-  const patchField = useFormDraftStore((state) => state.patchField);
-  const fields = useFormDraftStore((state) => state.fields);
-
-  const currentField = fields.find((f) => f.id === fieldId);
+  const patchField = useFormDraftStore((s) => s.patchField);
+  const currentField = useFormDraftStore((s) =>
+    s.fields.find((f) => f.id === fieldId),
+  );
 
   const hasInvalidMinMax =
     currentField?.type === "number" &&

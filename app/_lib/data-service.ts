@@ -4,18 +4,22 @@ import { UserInsert } from "./user/user.db-types";
 import { auth } from "./auth";
 import { headers } from "next/headers";
 
-export const fetchForms = async () => {
+export const fetchForms = async (page = 1, pageSize = 20) => {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) redirect("/auth/login");
 
+  const from = (page - 1) * pageSize;
+  const to = from + pageSize - 1;
+
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from("forms")
-    .select("*")
+    .select("id, title, created_at", { count: "exact" })
     .eq("owner_id", session.user.id)
-    .order("created_at", { ascending: false });
+    .order("created_at", { ascending: false })
+    .range(from, to);
   if (error) throw new Error("Forms could not be fetched");
-  return data;
+  return { data, count };
 };
 
 export const fetchForm = async (id: number) => {

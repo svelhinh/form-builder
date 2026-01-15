@@ -3,11 +3,12 @@
 import { Button } from "@/app/_components/ui/button";
 import { Spinner } from "@/app/_components/ui/spinner";
 import { sendVerificationEmail } from "@/app/_lib/auth-client";
+import { useToast } from "@/app/_utils/use-toast";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const ResendEmailButton = ({ email }: { email: string }) => {
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   return (
     <Button

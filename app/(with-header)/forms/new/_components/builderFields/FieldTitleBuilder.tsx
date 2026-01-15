@@ -4,7 +4,7 @@ import { Switch } from "@/app/_components/ui/switch";
 import { useFormDraftStore } from "@/app/(with-header)/forms/_store/form-draft-store-provider";
 
 const FieldTitleBuilder = ({ fieldId }: { fieldId: string }) => {
-  const patchField = useFormDraftStore((state) => state.patchField);
+  const patchField = useFormDraftStore((s) => s.patchField);
 
   return (
     <Field orientation="horizontal">

@@ -3,13 +3,14 @@
 import { Button } from "@/app/_components/ui/button";
 import { Spinner } from "@/app/_components/ui/spinner";
 import { deleteUser, useSession } from "@/app/_lib/auth-client";
+import { useToast } from "@/app/_utils/use-toast";
 import { useState } from "react";
-import { toast } from "sonner";
 
 const DeleteAccountButton = () => {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [deleteRequested, setDeleteRequested] = useState(false);
+  const toast = useToast();
 
   const onDeleteAccount = async () => {
     if (

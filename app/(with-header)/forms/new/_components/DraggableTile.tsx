@@ -4,6 +4,7 @@ import { FormField } from "../../_lib/fields.types";
 import NumberFieldBuilder from "./builderFields/NumberFieldBuilder";
 import SelectFieldBuilder from "./builderFields/SelectFieldBuilder";
 import TextFieldBuilder from "./builderFields/TextFieldBuilder";
+import { memo } from "react";
 
 type Props = {
   field: FormField;
@@ -41,4 +42,4 @@ const DraggableTile = ({ field, index, isLast }: Props) => {
   );
 };
 
-export default DraggableTile;
+export default memo(DraggableTile);

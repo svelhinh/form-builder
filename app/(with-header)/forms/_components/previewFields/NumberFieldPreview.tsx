@@ -3,6 +3,7 @@ import { Input } from "@/app/_components/ui/input";
 import { FormField } from "../../_lib/fields.types";
 import FieldTitlePreview from "./FieldTitlePreview";
 import { FieldValues, UseFormRegister } from "react-hook-form";
+import { memo } from "react";
 
 const NumberFieldPreview = ({
   field,
@@ -35,4 +36,4 @@ const NumberFieldPreview = ({
   );
 };
 
-export default NumberFieldPreview;
+export default memo(NumberFieldPreview);
