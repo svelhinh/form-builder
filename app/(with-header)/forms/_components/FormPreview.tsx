@@ -2,22 +2,38 @@
 
 import { Button } from "@/app/_components/ui/button";
 import { FieldGroup, FieldSet } from "@/app/_components/ui/field";
-import { useMemo, useRef, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
 import { z } from "zod";
 import { FormFields } from "../_lib/fields.types";
 import NumberFieldPreview from "./previewFields/NumberFieldPreview";
 import SelectFieldPreview from "./previewFields/SelectFieldPreview";
 import TextFieldPreview from "./previewFields/TextFieldPreview";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
   title: string;
   fields: FormFields;
 };
 
-function buildSchema(fields: FormFields) {
+type ValidationField =
+  | { id: string; type: "text"; isRequired: boolean }
+  | {
+      id: string;
+      type: "number";
+      isRequired: boolean;
+      min?: number;
+      max?: number;
+    }
+  | {
+      id: string;
+      type: "select";
+      isRequired: boolean;
+      options: string[];
+    };
+
+function buildSchema(fields: ValidationField[]) {
   const shape: Record<string, z.ZodTypeAny> = {};
 
   for (const field of fields) {
@@ -33,7 +49,7 @@ function buildSchema(fields: FormFields) {
       }
 
       case "select": {
-        const allowed = new Set(field.options.map((o) => o.id.toString()));
+        const allowed = new Set(field.options);
 
         s = z.preprocess(
           (v) => (v === "" ? undefined : v),
@@ -94,7 +110,38 @@ function buildSchema(fields: FormFields) {
 }
 
 const FormPreview = ({ title, fields }: Props) => {
-  const schema = useMemo(() => buildSchema(fields), [fields]);
+  const validationSignature = useMemo(
+    () =>
+      fields.map((f) => {
+        if (f.type === "text") {
+          return { id: f.id, type: f.type, isRequired: f.isRequired };
+        }
+
+        if (f.type === "number") {
+          return {
+            id: f.id,
+            type: f.type,
+            isRequired: f.isRequired,
+            min: f.min,
+            max: f.max,
+          };
+        }
+
+        // select
+        return {
+          id: f.id,
+          type: f.type,
+          isRequired: f.isRequired,
+          options: f.options.map((o) => o.id),
+        };
+      }),
+    [fields],
+  );
+
+  const schema = useMemo(
+    () => buildSchema(validationSignature),
+    [validationSignature],
+  );
 
   const {
     register,

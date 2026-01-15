@@ -50,6 +50,7 @@ const FormBuilder = () => {
       <div className="w-full">
         <form
           action={async (formData: FormData) => {
+            formData.set("fields", JSON.stringify(fields));
             await createForm(formData);
             resetFormDraft();
           }}
@@ -71,11 +72,6 @@ const FormBuilder = () => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </Field>
-              <input
-                type="hidden"
-                name="fields"
-                value={JSON.stringify(fields)}
-              />
               {fields.length > 0 && (
                 <Card className="p-0">
                   <CardContent className="p-0">
