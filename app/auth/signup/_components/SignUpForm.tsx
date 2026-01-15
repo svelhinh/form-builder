@@ -115,7 +115,7 @@ const SignUpForm = () => {
               <FieldError id="email-error">{errors.email.message}</FieldError>
             )}
           </Field>
-          <FieldGroup className="flex flex-row gap-6">
+          <FieldGroup className="contents sm:flex sm:flex-row sm:gap-6">
             <Field data-invalid={!!errors.password}>
               <InputGroup>
                 <InputGroupInput

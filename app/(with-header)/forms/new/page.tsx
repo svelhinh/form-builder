@@ -6,9 +6,10 @@ import FormBuilder from "@/app/(with-header)/forms/new/_components/FormBuilderCl
 const Page = async () => {
   return (
     <FormDraftStoreProvider>
-      <div className="mx-20 my-15 flex flex-row gap-10">
+      <div className="mx-4 my-6 flex flex-col gap-8 lg:mx-20 lg:my-15 lg:flex-row lg:gap-1">
         <FormBuilder />
-        <Separator orientation="vertical" />
+        <Separator orientation="horizontal" className="lg:hidden" />
+        <Separator orientation="vertical" className="hidden lg:mx-4 lg:block" />
         <DraftFormPreview />
       </div>
     </FormDraftStoreProvider>

@@ -28,7 +28,7 @@ const AuthShell = ({
   const { theme } = useTheme();
 
   return (
-    <Card className="items-center px-32 py-12">
+    <Card className="items-center py-12 sm:px-20 md:px-32">
       <CardHeader className="w-full gap-10">
         <CardTitle className="flex justify-center">
           <Image
@@ -36,6 +36,7 @@ const AuthShell = ({
             alt="Logo"
             width={200}
             height={200}
+            sizes="200px"
           />
         </CardTitle>
         {title && (
@@ -49,7 +50,7 @@ const AuthShell = ({
           </CardDescription>
         )}
       </CardHeader>
-      <CardContent className="w-md">{children}</CardContent>
+      <CardContent className="w-xs sm:w-sm md:w-md">{children}</CardContent>
       {footer && (
         <>
           <Separator />

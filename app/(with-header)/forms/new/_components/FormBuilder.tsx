@@ -47,7 +47,7 @@ const FormBuilder = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="w-full">
+      <div className="w-full lg:w-1/2">
         <form
           action={async (formData: FormData) => {
             formData.set("fields", JSON.stringify(fields));
@@ -61,7 +61,7 @@ const FormBuilder = () => {
           }}
         >
           <FieldSet>
-            <h1 className="text-3xl">Form Builder</h1>
+            <h1 className="text-2xl sm:text-3xl">Form Builder</h1>
             <FieldGroup>
               <Field>
                 <Input
@@ -96,10 +96,25 @@ const FormBuilder = () => {
                   </CardContent>
                 </Card>
               )}
-              <Field orientation="horizontal" className="flex-wrap">
-                <AddFieldButton onAddField={addField} type="text" />
-                <AddFieldButton onAddField={addField} type="number" />
-                <AddFieldButton onAddField={addField} type="select" />
+              <Field
+                orientation="horizontal"
+                className="flex-wrap gap-2 sm:gap-3"
+              >
+                <AddFieldButton
+                  onAddField={addField}
+                  type="text"
+                  className="w-full sm:w-auto"
+                />
+                <AddFieldButton
+                  onAddField={addField}
+                  type="number"
+                  className="w-full sm:w-auto"
+                />
+                <AddFieldButton
+                  onAddField={addField}
+                  type="select"
+                  className="w-full sm:w-auto"
+                />
               </Field>
               <Field>
                 <SaveButton

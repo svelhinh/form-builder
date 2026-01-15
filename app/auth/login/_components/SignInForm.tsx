@@ -138,24 +138,25 @@ const SignInForm = () => {
               </FieldError>
             )}
           </Field>
-          <Field orientation="horizontal" data-invalid={!!errors.rememberMe}>
-            <Checkbox
-              {...register("rememberMe")}
-              id="rememberMe"
-              name="rememberMe"
-            />
-            <FieldLabel htmlFor="rememberMe">Remember me</FieldLabel>
+          <Field
+            orientation="vertical"
+            className="flex-col items-start sm:flex-row sm:items-center sm:justify-between"
+            data-invalid={!!errors.rememberMe}
+          >
+            <div className="flex items-center gap-2">
+              <Checkbox
+                {...register("rememberMe")}
+                id="rememberMe"
+                name="rememberMe"
+              />
+              <FieldLabel htmlFor="rememberMe">Remember me</FieldLabel>
+            </div>
             <Link
               href="/auth/forgot-password"
               className="text-primary hover:text-primary/80 text-sm underline"
             >
               Forgot your password?
             </Link>
-            {errors.rememberMe && (
-              <FieldError id="rememberMe-error">
-                {errors.rememberMe.message}
-              </FieldError>
-            )}
           </Field>
           {errors.root?.server?.message && (
             <FieldError className="text-center">

@@ -18,7 +18,7 @@ const Page = async ({
 }: {
   searchParams: Promise<{ page: string }>;
 }) => {
-  const PAGE_SIZE = 5;
+  const PAGE_SIZE = 2;
 
   const { page = "1" } = await searchParams;
   const currentPage = Number(page);
@@ -30,8 +30,8 @@ const Page = async ({
   const isLastPage = currentPage >= totalPages;
 
   return (
-    <div className="mx-20 my-15 flex flex-col gap-10">
-      <h1 className="text-4xl font-semibold">Forms</h1>
+    <div className="mx-5 my-10 flex flex-col gap-10 md:mx-20 md:my-15">
+      <h1 className="text-2xl font-semibold md:text-4xl">Forms</h1>
       <Card className="rounded-md p-0">
         <CardContent className="p-0">
           <FormsList forms={forms} />
@@ -40,7 +40,7 @@ const Page = async ({
 
       {totalPages > 1 && (
         <Pagination>
-          <PaginationContent>
+          <PaginationContent className="flex-wrap justify-center gap-2">
             <PaginationItem>
               <PaginationPrevious
                 href={isFirstPage ? "#" : `/forms?page=${currentPage - 1}`}

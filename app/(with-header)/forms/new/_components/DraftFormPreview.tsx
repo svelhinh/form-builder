@@ -8,8 +8,8 @@ const DraftFormPreview = () => {
   const fields = useFormDraftStore((s) => s.fields);
 
   return (
-    <div className="flex w-full flex-col gap-4">
-      <h1 className="text-3xl">Form Preview</h1>
+    <div className="flex w-full flex-col gap-4 lg:w-1/2">
+      <h1 className="text-2xl sm:text-3xl">Form Preview</h1>
       <FormPreview title={title} fields={fields} />
     </div>
   );

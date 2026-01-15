@@ -18,6 +18,7 @@ import { Spinner } from "@/app/_components/ui/spinner";
 import { formatDaysAgo } from "@/app/_utils/helper";
 import Link from "next/link";
 import { memo, useTransition } from "react";
+import { HiTrash } from "react-icons/hi2";
 
 const FormTile = ({
   form,
@@ -34,8 +35,8 @@ const FormTile = ({
 
   return (
     <>
-      <div className="hover:bg-accent flex items-center justify-between p-6 hover:rounded-md">
-        <Link href={`/forms/${form.id}`} className="flex-1">
+      <div className="hover:bg-accent relative flex min-h-32 flex-col justify-center gap-4 p-6 hover:rounded-md md:min-h-0 md:flex-row md:justify-between md:gap-6">
+        <Link href={`/forms/${form.id}`} className="flex-1 pr-10 md:pr-0">
           <span className="flex flex-col gap-1">
             <h1 className="text-2xl font-semibold">
               {form.title ? form.title : "Untitled Form"}
@@ -47,8 +48,17 @@ const FormTile = ({
         </Link>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="w-20">
-              {isPending ? <Spinner /> : "Delete"}
+            <Button
+              variant="destructive"
+              className="absolute top-4 right-4 h-9 w-9 p-0 md:static md:w-20"
+              aria-label="Delete form"
+            >
+              <span className="md:hidden">
+                {isPending ? <Spinner /> : <HiTrash className="h-4 w-4" />}
+              </span>
+              <span className="hidden md:inline">
+                {isPending ? <Spinner /> : "Delete"}
+              </span>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent className="dark:bg-slate-900">

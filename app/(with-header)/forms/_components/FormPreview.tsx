@@ -167,13 +167,13 @@ const FormPreview = ({ title, fields }: Props) => {
 
   return (
     <form noValidate onSubmit={onSubmit}>
-      <FieldSet>
+      <FieldSet className="gap-4 sm:gap-6">
         {title ? (
-          <h1 className="text-2xl">{title}</h1>
+          <h1 className="text-xl sm:text-2xl">{title}</h1>
         ) : (
-          <h1 className="text-2xl">Untitled Form</h1>
+          <h1 className="text-xl sm:text-2xl">Untitled Form</h1>
         )}
-        <FieldGroup>
+        <FieldGroup className="gap-4 sm:gap-7">
           {fields.map((field) => (
             <Fragment key={field.id}>
               {field.type === "text" && (
@@ -201,7 +201,7 @@ const FormPreview = ({ title, fields }: Props) => {
           ))}
           {fields.length > 0 && (
             <Button
-              className="dark:bg-secondary dark:text-secondary-foreground dark:hover:bg-secondary/80 font-semibold md:text-xl"
+              className="dark:bg-secondary dark:text-secondary-foreground dark:hover:bg-secondary/80 w-full font-semibold sm:w-auto sm:text-xl"
               size="lg"
             >
               Submit
