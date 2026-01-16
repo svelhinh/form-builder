@@ -25,14 +25,14 @@ const AuthShell = ({
   children: React.ReactNode;
   footer?: React.ReactNode;
 }) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <Card className="items-center py-12 sm:px-20 md:px-32">
       <CardHeader className="w-full gap-10">
         <CardTitle className="flex justify-center">
           <Image
-            src={theme === "dark" ? logo : logoDark}
+            src={resolvedTheme === "dark" ? logo : logoDark}
             alt="Logo"
             width={200}
             height={200}

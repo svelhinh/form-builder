@@ -5,15 +5,15 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 const ThemeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <Toggle
       aria-label="Toggle theme"
       className="bg-background"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
     >
-      {theme === "dark" ? (
+      {resolvedTheme === "dark" ? (
         <Sun className="size-4" />
       ) : (
         <Moon className="size-4" />
