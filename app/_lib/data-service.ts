@@ -3,6 +3,8 @@ import { createClient } from "./supabase/server";
 import { UserInsert } from "./user/user.db-types";
 import { auth } from "./auth";
 import { headers } from "next/headers";
+import { formFieldsSchema } from "../(with-header)/forms/_lib/fields.schema";
+import type { FormFields } from "../(with-header)/forms/_lib/fields.types";
 
 export const fetchForms = async (page = 1, pageSize = 20) => {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -19,7 +21,12 @@ export const fetchForms = async (page = 1, pageSize = 20) => {
     .order("created_at", { ascending: false })
     .range(from, to);
   if (error) throw new Error("Forms could not be fetched");
-  return { data, count };
+  const safeData =
+    data?.map((f) => ({
+      ...f,
+      title: f.title ?? "",
+    })) ?? [];
+  return { data: safeData, count };
 };
 
 export const fetchForm = async (id: number) => {
@@ -34,7 +41,16 @@ export const fetchForm = async (id: number) => {
     .eq("id", id)
     .single();
   if (error) throw new Error("Form could not be found");
-  return data;
+
+  const safeTitle = data.title ?? "";
+  const parsed = formFieldsSchema.safeParse(data.fields);
+  const safeFields: FormFields = parsed.success ? parsed.data : [];
+
+  return {
+    ...data,
+    title: safeTitle,
+    fields: safeFields,
+  };
 };
 
 export const getUser = async (email: string | null | undefined) => {

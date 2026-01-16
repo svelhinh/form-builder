@@ -5,6 +5,7 @@ import { useFormDraftStore } from "@/app/(with-header)/forms/_store/form-draft-s
 
 const FieldTitleBuilder = ({ fieldId }: { fieldId: string }) => {
   const patchField = useFormDraftStore((s) => s.patchField);
+  const requiredId = `${fieldId}-required`;
 
   return (
     <Field orientation="horizontal">
@@ -18,11 +19,11 @@ const FieldTitleBuilder = ({ fieldId }: { fieldId: string }) => {
         }
       />
       <span className="flex items-center gap-2">
-        <FieldLabel htmlFor="required" className="text-destructive">
+        <FieldLabel htmlFor={requiredId} className="text-destructive">
           Required
         </FieldLabel>
         <Switch
-          id="required"
+          id={requiredId}
           className="data-[state=checked]:bg-destructive"
           onCheckedChange={(checked) =>
             patchField(fieldId, {

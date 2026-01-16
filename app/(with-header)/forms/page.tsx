@@ -16,12 +16,13 @@ export const revalidate = 30;
 const Page = async ({
   searchParams,
 }: {
-  searchParams: Promise<{ page: string }>;
+  searchParams: Promise<{ page?: string | string[] }>;
 }) => {
   const PAGE_SIZE = 5;
 
-  const { page = "1" } = await searchParams;
-  const currentPage = Number(page);
+  const { page } = await searchParams;
+  const pageValue = Array.isArray(page) ? page[0] : page;
+  const currentPage = Math.max(1, Number(pageValue ?? "1") || 1);
   const { data: forms, count } = await fetchForms(currentPage, PAGE_SIZE);
 
   const totalPages = Math.ceil((count ?? 0) / PAGE_SIZE);
@@ -71,7 +72,7 @@ const Page = async ({
 
             <PaginationItem>
               <PaginationLink href={`/forms?page=${currentPage}`} isActive>
-                {page}
+                {currentPage}
               </PaginationLink>
             </PaginationItem>
 

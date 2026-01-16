@@ -23,6 +23,9 @@ const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
     !Number.isNaN(currentField.max) &&
     currentField.max < currentField.min;
 
+  const minId = `${fieldId}-min`;
+  const maxId = `${fieldId}-max`;
+
   return (
     <>
       <FieldHeaderBuilder fieldId={fieldId} title="Number Field" />
@@ -30,11 +33,11 @@ const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
         <FieldTitleBuilder fieldId={fieldId} />
         <Field className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div className="flex gap-2">
-            <FieldLabel htmlFor="min">Minimum</FieldLabel>
+            <FieldLabel htmlFor={minId}>Minimum</FieldLabel>
             <Input
               type="number"
               placeholder="Enter minimum value"
-              id="min"
+              id={minId}
               onChange={(e) =>
                 patchField(fieldId, {
                   min: Number(e.target.value),
@@ -43,11 +46,11 @@ const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
             />
           </div>
           <div className="flex gap-2">
-            <FieldLabel htmlFor="max">Maximum</FieldLabel>
+            <FieldLabel htmlFor={maxId}>Maximum</FieldLabel>
             <Input
               type="number"
               placeholder="Enter maximum value"
-              id="max"
+              id={maxId}
               onChange={(e) =>
                 patchField(fieldId, {
                   max: Number(e.target.value),
