@@ -35,7 +35,7 @@ const FormTile = ({
 
   return (
     <>
-      <div className="hover:bg-accent relative flex min-h-32 flex-col justify-center gap-4 p-6 hover:rounded-md md:min-h-0 md:flex-row md:justify-between md:gap-6">
+      <div className="hover:bg-accent relative flex min-h-32 flex-col justify-center gap-4 p-6 hover:rounded-md md:min-h-0 md:flex-row md:items-center md:justify-between md:gap-6">
         <Link href={`/forms/${form.id}`} className="flex-1 pr-10 md:pr-0">
           <span className="flex flex-col gap-1">
             <h1 className="text-2xl font-semibold">
