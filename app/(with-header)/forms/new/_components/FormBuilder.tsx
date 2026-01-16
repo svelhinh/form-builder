@@ -1,5 +1,6 @@
 "use client";
 
+import { reorderFields } from "@/app/(with-header)/forms/_lib/reorder";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { Field, FieldGroup, FieldSet } from "@/app/_components/ui/field";
 import { Input } from "@/app/_components/ui/input";
@@ -38,11 +39,7 @@ const FormBuilder = () => {
     )
       return;
 
-    const reorderedFields = [...fields];
-    const [movedField] = reorderedFields.splice(source.index, 1);
-    reorderedFields.splice(destination.index, 0, movedField);
-
-    patchFields(reorderedFields);
+    patchFields(reorderFields(fields, source.index, destination.index));
   };
 
   return (
