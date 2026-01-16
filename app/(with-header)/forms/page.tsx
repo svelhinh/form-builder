@@ -18,7 +18,7 @@ const Page = async ({
 }: {
   searchParams: Promise<{ page: string }>;
 }) => {
-  const PAGE_SIZE = 2;
+  const PAGE_SIZE = 5;
 
   const { page = "1" } = await searchParams;
   const currentPage = Number(page);

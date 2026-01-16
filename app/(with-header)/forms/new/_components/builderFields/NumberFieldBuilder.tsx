@@ -28,29 +28,33 @@ const NumberFieldBuilder = ({ fieldId }: { fieldId: string }) => {
       <FieldHeaderBuilder fieldId={fieldId} title="Number Field" />
       <FieldGroup>
         <FieldTitleBuilder fieldId={fieldId} />
-        <Field orientation="horizontal">
-          <FieldLabel htmlFor="min">Minimum</FieldLabel>
-          <Input
-            type="number"
-            placeholder="Enter minimum value"
-            id="min"
-            onChange={(e) =>
-              patchField(fieldId, {
-                min: Number(e.target.value),
-              })
-            }
-          />
-          <FieldLabel htmlFor="max">Maximum</FieldLabel>
-          <Input
-            type="number"
-            placeholder="Enter maximum value"
-            id="max"
-            onChange={(e) =>
-              patchField(fieldId, {
-                max: Number(e.target.value),
-              })
-            }
-          />
+        <Field className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+          <div className="flex gap-2">
+            <FieldLabel htmlFor="min">Minimum</FieldLabel>
+            <Input
+              type="number"
+              placeholder="Enter minimum value"
+              id="min"
+              onChange={(e) =>
+                patchField(fieldId, {
+                  min: Number(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div className="flex gap-2">
+            <FieldLabel htmlFor="max">Maximum</FieldLabel>
+            <Input
+              type="number"
+              placeholder="Enter maximum value"
+              id="max"
+              onChange={(e) =>
+                patchField(fieldId, {
+                  max: Number(e.target.value),
+                })
+              }
+            />
+          </div>
         </Field>
         {hasInvalidMinMax && (
           <FieldError>

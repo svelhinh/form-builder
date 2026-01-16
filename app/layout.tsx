@@ -25,7 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="h-screen dark:bg-slate-900">{children}</main>
+          <main className="min-h-screen dark:bg-slate-900">{children}</main>
           <Toaster />
         </ThemeProvider>
       </body>

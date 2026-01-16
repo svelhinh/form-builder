@@ -13,9 +13,9 @@ export default async function WithHeaderLayout({
   if (!session) redirect("/auth/login");
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Header userName={session.user.name} />
-      <main>{children}</main>
-    </>
+      <main className="flex-1">{children}</main>
+    </div>
   );
 }
