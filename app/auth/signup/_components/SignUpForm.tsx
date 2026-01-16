@@ -38,10 +38,10 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpEmailSchema),
     mode: "onBlur",
     defaultValues: {
-      name: "Toto",
-      email: "sergio93160@gmail.com",
-      password: "pass1234",
-      passwordConfirmation: "pass1234",
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
     },
   });
 

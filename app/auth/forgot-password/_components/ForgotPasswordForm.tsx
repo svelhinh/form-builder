@@ -38,7 +38,7 @@ const ForgotPasswordForm = () => {
     resolver: zodResolver(requestPasswordResetSchema),
     mode: "onBlur",
     defaultValues: {
-      email: "sergio93160@gmail.com",
+      email: "",
     },
   });
 

@@ -38,8 +38,8 @@ const SignInForm = () => {
     resolver: zodResolver(signInEmailSchema),
     mode: "onBlur",
     defaultValues: {
-      email: "sergio93160@gmail.com",
-      password: "pass1234",
+      email: "",
+      password: "",
       rememberMe: true,
     },
   });
