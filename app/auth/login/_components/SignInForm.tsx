@@ -151,12 +151,14 @@ const SignInForm = () => {
               />
               <FieldLabel htmlFor="rememberMe">Remember me</FieldLabel>
             </div>
-            <Link
-              href="/auth/forgot-password"
-              className="text-primary hover:text-primary/80 text-sm underline"
-            >
-              Forgot your password?
-            </Link>
+            <div className="mt-2 flex w-full justify-start sm:mt-0 sm:justify-end">
+              <Link
+                href="/auth/forgot-password"
+                className="text-primary hover:text-primary/80 text-sm underline"
+              >
+                Forgot your password?
+              </Link>
+            </div>
           </Field>
           {errors.root?.server?.message && (
             <FieldError className="text-center">

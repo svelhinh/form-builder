@@ -1,32 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionCookie } from "better-auth/cookies";
+import { auth } from "@/app/_lib/auth";
 
-export function proxy(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const hasSessionCookie = Boolean(getSessionCookie(req));
+  const session = await auth.api.getSession({ headers: req.headers });
+  const isVerified = Boolean(session?.user?.emailVerified);
 
   const isAuthRoute = pathname === "/auth" || pathname.startsWith("/auth/");
-  const isFormsRoute = pathname === "/forms" || pathname.startsWith("/forms/");
-  const isAccountRoute =
-    pathname === "/account" || pathname.startsWith("/account/");
+  const isConfirmRoute =
+    pathname === "/auth/signup/confirm" ||
+    pathname.startsWith("/auth/signup/confirm/");
 
-  // Unauthed: root/forms -> login
-  if (
-    !hasSessionCookie &&
-    (pathname === "/" || isFormsRoute || isAccountRoute)
-  ) {
+  if (isAuthRoute) {
+    if (!session) {
+      if (isConfirmRoute) {
+        return NextResponse.redirect(new URL("/auth/login", req.url));
+      }
+
+      return NextResponse.next();
+    }
+
+    if (!isVerified && !isConfirmRoute) {
+      return NextResponse.redirect(new URL("/auth/signup/confirm", req.url));
+    }
+
+    if (isVerified) {
+      return NextResponse.redirect(new URL("/forms", req.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  if (!session) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 
-  // Authed: root/auth -> forms
-  if (hasSessionCookie && (pathname === "/" || isAuthRoute)) {
-    return NextResponse.redirect(new URL("/forms", req.url));
+  if (!isVerified && !isConfirmRoute) {
+    return NextResponse.redirect(new URL("/auth/signup/confirm", req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/forms/:path*", "/auth/:path*"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
