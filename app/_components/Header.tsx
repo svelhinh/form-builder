@@ -12,7 +12,7 @@ const Header = ({ userName }: { userName: string }) => {
             <ThemeToggle />
           </div>
         </div>
-        <div className="flex flex-col items-center gap-4 md:flex-row md:justify-end md:gap-4">
+        <div className="flex w-full flex-col items-stretch gap-4 md:w-auto md:flex-row md:items-center md:justify-end md:gap-4">
           <Navigation userName={userName} />
           <div className="hidden md:block">
             <ThemeToggle />

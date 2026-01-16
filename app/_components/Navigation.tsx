@@ -21,7 +21,7 @@ const Navigation = ({ userName }: { userName: string }) => {
         Welcome, {userName}
       </Link>
       <nav className="z-10 w-full sm:w-auto">
-        <ul className="flex flex-col gap-3 sm:flex-row sm:gap-6">
+        <ul className="flex w-full flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-6">
           <li className="w-full sm:w-auto">
             <Link href="/forms/new" className="block w-full sm:w-auto">
               <Button
