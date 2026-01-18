@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Form Builder
 
-## Getting Started
+Form Builder is a Next.js app for creating and managing custom forms. It
+includes authentication, user accounts, and a form management dashboard backed
+by Supabase/Postgres.
 
-First, run the development server:
+## Features
+
+- Email/password auth and Google sign-in
+- Form list with pagination
+- Form builder UI (create, edit, and view forms)
+- Light/dark theme toggle
+
+## Tech Stack
+
+- Next.js App Router
+- React, TypeScript, Tailwind CSS
+- Supabase (data storage)
+- Better Auth + Postgres (auth)
+- Resend (transactional emails)
+
+## Requirements
+
+- Node.js 18+ (or 20+ recommended)
+- A Supabase project (Postgres) with credentials
+
+## Environment Variables
+
+Create a `.env.local` in the project root:
+
+```bash
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_SECRET_SUPABASE_DEFAULT_KEY=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
+
+# Database (used by Better Auth)
+DATABASE_URL=
+
+# Email (Resend)
+RESEND_API_KEY=
+
+# OAuth (Google)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
+## Install
+
+```bash
+npm install
+```
+
+## Run (Development)
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build & Start (Production)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Tests & Lint
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run test
+npm run lint
+```
