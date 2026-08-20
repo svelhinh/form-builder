@@ -1,32 +1,65 @@
 # Form Builder
 
-Form Builder is a Next.js app for creating and managing custom forms. It
-includes authentication, user accounts, and a form management dashboard backed
-by Supabase/Postgres.
+A personal **Next.js form-building project** focused on dynamic UI composition, typed validation, authentication and maintainable application structure.
 
-## Features
+> **Status:** work in progress. This is a personal technical project, not a launched production service.
 
-- Email/password auth and Google sign-in
+## What it does
+
+Form Builder lets authenticated users create and manage custom forms from a dashboard.
+
+Current capabilities include:
+
+- Email/password authentication and Google sign-in
+- Account management
 - Form list with pagination
-- Form builder UI (create, edit, and view forms)
-- Light/dark theme toggle
+- Create, edit and view form definitions
+- Dynamic **text, number and select** fields
+- Required-field configuration and field-specific constraints
+- Drag-and-drop field reordering
+- Live form preview
+- Light/dark theme support
 
-## Tech Stack
+## Technical highlights
 
-- Next.js App Router
-- React, TypeScript, Tailwind CSS
-- Supabase (data storage)
-- Better Auth + Postgres (auth)
-- Resend (transactional emails)
+The project is mainly an exercise in building a feature-rich application while keeping state, validation and UI responsibilities separated.
 
-## Requirements
+- **Next.js App Router** with route groups and loading/error boundaries
+- **Zustand** store dedicated to the form draft and builder interactions
+- **Zod** schemas for form structure and dynamic preview validation
+- **React Hook Form** for form handling
+- **@hello-pangea/dnd** for drag-and-drop field ordering
+- **Supabase/Postgres** for persisted application data
+- **Better Auth** with email/password and Google OAuth
+- **Resend** for transactional email flows
+- **Vitest + Testing Library** covering builder state, schemas and form-preview behaviour
 
-- Node.js 18+ (or 20+ recommended)
-- A Supabase project (Postgres) with credentials
+## Stack
 
-## Environment Variables
+**Frontend**  
+Next.js 16 · React 19 · TypeScript · Tailwind CSS · Radix UI
 
-Create a `.env.local` in the project root:
+**State & validation**  
+Zustand · React Hook Form · Zod
+
+**Backend & services**  
+Supabase · PostgreSQL · Better Auth · Resend
+
+**Quality**  
+Vitest · Testing Library · ESLint · Prettier
+
+## Local setup
+
+### Requirements
+
+- Node.js 20+ recommended
+- A Supabase/Postgres project
+- Google OAuth credentials if Google sign-in is enabled
+- A Resend API key for email flows
+
+### Environment variables
+
+Create a `.env.local` file in the project root:
 
 ```bash
 # App
@@ -37,41 +70,36 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_SECRET_SUPABASE_DEFAULT_KEY=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=
 
-# Database (used by Better Auth)
+# Database / Better Auth
 DATABASE_URL=
 
-# Email (Resend)
+# Email
 RESEND_API_KEY=
 
-# OAuth (Google)
+# Google OAuth
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 ```
 
-## Install
+### Install and run
 
 ```bash
 npm install
-```
-
-## Run (Development)
-
-```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+The development server runs at `http://localhost:3000`.
 
-## Build & Start (Production)
-
-```bash
-npm run build
-npm run start
-```
-
-## Tests & Lint
+### Tests and lint
 
 ```bash
 npm run test
 npm run lint
+```
+
+### Production build
+
+```bash
+npm run build
+npm run start
 ```
