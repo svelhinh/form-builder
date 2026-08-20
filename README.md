@@ -2,7 +2,9 @@
 
 A personal **Next.js form-building project** focused on dynamic UI composition, typed validation, authentication and maintainable application structure.
 
-> **Status:** work in progress. This is a personal technical project, not a launched production service.
+[Live Demo](https://form-builder-psi-wheat.vercel.app/)
+
+> **Status:** work in progress. This is a personal technical project, not a launched production service. The live demo is hosted on Vercel with a Supabase Free Plan backend.
 
 ## What it does
 
