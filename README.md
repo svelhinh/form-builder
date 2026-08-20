@@ -6,15 +6,15 @@ A personal **Next.js form-building project** focused on dynamic UI composition, 
 
 > **Status:** work in progress. This is a personal technical project, not a launched production service. The live demo is hosted on Vercel with a Supabase Free Plan backend.
 
-## Dark mode preview
+## Preview
 
 <p align="center">
-  <img src="docs/screenshots/builder-dark.png" alt="Form Builder desktop interface in dark mode with live preview" width="100%" />
+  <img src="docs/screenshots/builder-light.png" alt="Form Builder desktop interface with live preview" width="100%" />
 </p>
 
-## Light mode demo
+## Video demo
 
-The video below shows the main flow in the light theme.
+The video below shows the main form-building flow in the light theme.
 
 https://github.com/user-attachments/assets/1aa19272-4ef3-4b96-a910-fff5bc0bea09
 
@@ -48,18 +48,20 @@ The project is mainly an exercise in building a feature-rich application while k
 - **Resend** for transactional email flows
 - **Vitest + Testing Library** covering builder state, schemas and form-preview behaviour
 
-## Dark mode screenshots
+## Screenshots
 
-### Forms dashboard
+### Forms dashboard — light mode
 
 <p align="center">
-  <img src="docs/screenshots/dashboard-dark.png" alt="Forms dashboard in dark mode" width="100%" />
+  <img src="docs/screenshots/dashboard-light.png" alt="Forms dashboard in light mode" width="100%" />
 </p>
 
-### Responsive mobile layout
+### Responsive layout — dark mode
+
+The application also supports a dark theme across responsive layouts.
 
 <p align="center">
-  <img src="docs/screenshots/builder-mobile.png" alt="Form Builder mobile layout in dark mode" width="320" />
+  <img src="docs/screenshots/builder-mobile.png" alt="Form Builder mobile layout in dark mode" width="300" />
 </p>
 
 ## Stack
