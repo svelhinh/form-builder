@@ -2,9 +2,13 @@
 
 A personal **Next.js form-building project** focused on dynamic UI composition, typed validation, authentication and maintainable application structure.
 
-[Live Demo](https://form-builder-psi-wheat.vercel.app/)
+[Live Demo](https://form-builder-psi-wheat.vercel.app/) · [Video Demo](docs/demo/form-builder-demo.mp4)
 
 > **Status:** work in progress. This is a personal technical project, not a launched production service. The live demo is hosted on Vercel with a Supabase Free Plan backend.
+
+<p align="center">
+  <img src="docs/screenshots/builder-dark.png" alt="Form Builder desktop interface with live preview" width="900" />
+</p>
 
 ## What it does
 
@@ -35,6 +39,13 @@ The project is mainly an exercise in building a feature-rich application while k
 - **Better Auth** with email/password and Google OAuth
 - **Resend** for transactional email flows
 - **Vitest + Testing Library** covering builder state, schemas and form-preview behaviour
+
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/dashboard-dark.png" alt="Forms dashboard" width="690" />
+  <img src="docs/screenshots/builder-mobile.png" alt="Form Builder mobile layout" width="200" />
+</p>
 
 ## Stack
 
